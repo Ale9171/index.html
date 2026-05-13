@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL_STORE💋 | Catálogo Stranger</title>
+    <title>VAL_STORE💋 | Catálogo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -25,12 +25,12 @@
 </head>
 <body>
 
-    <!-- Música: Stranger Things (Volumen bajo 10%) -->
+    <!-- Música de fondo original (Volumen 20%) -->
     <audio id="bg-music" loop>
-        <source src="https://www.myinstants.com/media/sounds/stranger-things-theme-song-hd.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Sonido de Clic Clásico (Volumen 25%) -->
+    <!-- Sonido de Clic (Volumen 60%) -->
     <audio id="click-sound">
         <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
     </audio>
@@ -38,7 +38,7 @@
     <div id="music-control" onclick="toggleMusic()">🎵</div>
 
     <header class="bg-white text-black py-8 px-4 text-center">
-        <h1 class="text-3xl font-bold tracking-tight text-black">Nuevos Ingresos</h1>
+        <h1 class="text-3xl font-bold tracking-tight">Nuevos Ingresos</h1>
         <p class="text-gray-500 text-sm mt-1">Marcas exclusivas • Piezas únicas</p>
     </header>
 
@@ -76,13 +76,13 @@
         const bgMusic = document.getElementById('bg-music');
         const clickSfx = document.getElementById('click-sound');
 
-        // Configuración de volumen baja (Ambiente de tienda)
-        bgMusic.volume = 0.10; 
-        clickSfx.volume = 0.25;
+        // Configuración de Volúmenes solicitada
+        bgMusic.volume = 0.20; 
+        clickSfx.volume = 0.60;
 
         function playClick() { 
             clickSfx.currentTime = 0; 
-            clickSfx.play().catch(() => {}); // Evita errores de navegador
+            clickSfx.play().catch(() => {}); 
         }
 
         function toggleMusic() {
@@ -146,11 +146,9 @@
 
         function comprarPorWA() {
             const p = prendas[indexActual];
-            // Contacto de Guatemala integrado
             window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent("¡Hola! Me interesa: " + p.titulo + "\nPrecio: " + p.precio);
         }
 
-        // Soporte para gestos táctiles
         let touchstartX = 0;
         let touchendX = 0;
         document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
