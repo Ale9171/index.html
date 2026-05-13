@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL_STORE💋 | Catálogo Relax</title>
+    <title>VAL_STORE💋 | Catálogo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -20,19 +20,19 @@
         .nav-btn { position: absolute; top: 40%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; z-index: 70; display: flex; align-items: center; justify-content: center; }
         .talla-badge { background: #f3f4f6; color: #6b7280; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid #e5e7eb; }
         
-        #music-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.15); backdrop-blur: blur(10px); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 18px; }
+        #music-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <!-- Música ambiental -->
+    <!-- Música: Stranger Things Theme (Volumen bajo) -->
     <audio id="bg-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://www.soundboard.com/handler/DownLoadTrack.ashx?cliptitle=Stranger+Things+Theme&filename=24/248553-73138f38-349c-486a-8f96-368735231c62.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Nuevo Sonido de Burbuja Relajante -->
-    <audio id="bubble-sound">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2324/2324-preview.mp3" type="audio/mpeg">
+    <!-- Sonido de Clic Clásico -->
+    <audio id="click-sound">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
     </audio>
 
     <div id="music-control" onclick="toggleMusic()">🎵</div>
@@ -74,17 +74,22 @@
 
         let indexActual = 0;
         const bgMusic = document.getElementById('bg-music');
-        const bubbleSfx = document.getElementById('bubble-sound');
+        const clickSfx = document.getElementById('click-sound');
 
-        // Volumen bajo para ambiente de tienda
-        bgMusic.volume = 0.15; 
-        bubbleSfx.volume = 0.3;
+        // Volumen relajado y bajo
+        bgMusic.volume = 0.10; 
+        clickSfx.volume = 0.25;
 
-        function playBubble() { bubbleSfx.currentTime = 0; bubbleSfx.play(); }
+        function playClick() { clickSfx.currentTime = 0; clickSfx.play(); }
 
         function toggleMusic() {
-            if (bgMusic.paused) { bgMusic.play(); document.getElementById('music-control').innerText = "🔊"; } 
-            else { bgMusic.pause(); document.getElementById('music-control').innerText = "🎵"; }
+            if (bgMusic.paused) { 
+                bgMusic.play(); 
+                document.getElementById('music-control').innerText = "🔊"; 
+            } else { 
+                bgMusic.pause(); 
+                document.getElementById('music-control').innerText = "🎵"; 
+            }
         }
 
         const galeria = document.getElementById('galeria');
@@ -106,7 +111,7 @@
         });
 
         function abrirModal(index) {
-            playBubble();
+            playClick();
             indexActual = index;
             actualizarModal();
             document.getElementById('modal').style.display = 'block';
@@ -123,14 +128,18 @@
         }
 
         function cambiarPrenda(direccion) {
-            playBubble();
+            playClick();
             indexActual += direccion;
             if (indexActual < 0) indexActual = prendas.length - 1;
             if (indexActual >= prendas.length) indexActual = 0;
             actualizarModal();
         }
 
-        function cerrar() { playBubble(); document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+        function cerrar() { 
+            playClick(); 
+            document.getElementById('modal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
+        }
 
         function comprarPorWA() {
             const p = prendas[indexActual];
