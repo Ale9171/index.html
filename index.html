@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL_STORE💋 | Catálogo</title>
+    <title>VAL_STORE💋 | Catálogo con Audio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0f0f0f; color: #ffffff; overflow-x: hidden; }
-        .product-card { background: #ffffff; border-radius: 12px; overflow: hidden; cursor: pointer; color: #333; }
+        .product-card { background: #ffffff; border-radius: 12px; overflow: hidden; cursor: pointer; color: #333; transition: transform 0.2s; }
+        .product-card:active { transform: scale(0.95); }
         .tag-nuevo { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.8); color: white; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
         
-        /* Interfaz Full Screen Estilo VAL_STORE */
         #modal { display: none; background: #000; transition: all 0.3s ease; }
         .modal-content { background: white; border-radius: 30px 30px 0 0; width: 100%; position: absolute; bottom: 0; padding: 25px 20px; text-align: center; color: black; }
         .img-container { height: 65vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; top: -2vh; }
@@ -19,9 +19,24 @@
         
         .nav-btn { position: absolute; top: 40%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; z-index: 70; display: flex; align-items: center; justify-content: center; }
         .talla-badge { background: #f3f4f6; color: #6b7280; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid #e5e7eb; }
+        
+        /* Botón de Música */
+        #music-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.2); backdrop-blur: md; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; font-size: 20px; }
     </style>
 </head>
 <body>
+
+    <!-- Música de fondo (Puedes cambiar el link por cualquier MP3 directo) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Sonido de Clic -->
+    <audio id="click-sound">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="music-control" onclick="toggleMusic()">🎵</div>
 
     <header class="bg-white text-black py-8 px-4 text-center">
         <h1 class="text-3xl font-bold tracking-tight">Nuevos Ingresos</h1>
@@ -33,38 +48,23 @@
         <a href="https://wa.me/50259647654" class="bg-black text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">WhatsApp</a>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-3 gap-4" id="galeria">
-        <!-- Generado por JS -->
-    </main>
+    <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-3 gap-4" id="galeria"></main>
 
-    <footer class="py-10 text-center border-t border-gray-800">
-        <p class="text-[9px] text-gray-500 tracking-widest">© 2026 VAL_STORE • ENVIAMOS A TODA LA REPÚBLICA</p>
-    </footer>
-
-    <!-- MODAL PROFESIONAL -->
     <div id="modal" class="fixed inset-0 z-[60] flex flex-col items-center">
-        <!-- Botón Salir -->
         <button onclick="cerrar()" class="absolute top-6 left-6 text-white text-xs bg-white/10 px-4 py-2 rounded-full border border-white/20 z-[80] backdrop-blur-md">✕ Salir</button>
-
-        <!-- Navegación -->
         <button onclick="cambiarPrenda(-1)" class="nav-btn left-2">‹</button>
         <button onclick="cambiarPrenda(1)" class="nav-btn right-2">›</button>
-
-        <div class="img-container">
-            <img id="m-img" src="">
-        </div>
-
+        <div class="img-container"><img id="m-img" src=""></div>
         <div class="modal-content shadow-2xl">
             <p id="m-marca" class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1"></p>
             <h2 id="m-titulo" class="text-xl font-bold text-black mb-1"></h2>
             <p id="m-talla" class="text-gray-400 text-xs mb-3"></p>
             <p id="m-precio" class="text-black font-bold text-3xl mb-6"></p>
-            <button onclick="comprarPorWA()" class="bg-[#E01E37] text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg active:scale-95 transition-transform">Preguntar por WhatsApp 💋</button>
+            <button onclick="comprarPorWA()" class="bg-[#E01E37] text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg">Preguntar por WhatsApp 💋</button>
         </div>
     </div>
 
     <script>
-        // BASE DE DATOS ACTUALIZADA CON TUS IMÁGENES
         const prendas = [
             { img: 'https://i.ibb.co/hFcZD64w/images-3.jpg', titulo: 'Playera Casual', precio: '$150', talla: 'M', marca: 'EXCLUSIVO' },
             { img: 'https://i.ibb.co/ks3TKzXM/images-2.jpg', titulo: 'Blusa Estampada', precio: '$180', talla: 'S', marca: 'MARCA' },
@@ -74,9 +74,17 @@
         ];
 
         let indexActual = 0;
-        const galeria = document.getElementById('galeria');
+        const bgMusic = document.getElementById('bg-music');
+        const clickSfx = document.getElementById('click-sound');
 
-        // Crear cuadrícula de productos
+        function playClick() { clickSfx.currentTime = 0; clickSfx.play(); }
+
+        function toggleMusic() {
+            if (bgMusic.paused) { bgMusic.play(); document.getElementById('music-control').innerText = "🔊"; } 
+            else { bgMusic.pause(); document.getElementById('music-control').innerText = "🎵"; }
+        }
+
+        const galeria = document.getElementById('galeria');
         prendas.forEach((p, i) => {
             galeria.innerHTML += `
                 <div class="product-card relative shadow-sm" onclick="abrirModal(${i})">
@@ -95,6 +103,7 @@
         });
 
         function abrirModal(index) {
+            playClick();
             indexActual = index;
             actualizarModal();
             document.getElementById('modal').style.display = 'block';
@@ -111,30 +120,25 @@
         }
 
         function cambiarPrenda(direccion) {
+            playClick();
             indexActual += direccion;
             if (indexActual < 0) indexActual = prendas.length - 1;
             if (indexActual >= prendas.length) indexActual = 0;
             actualizarModal();
         }
 
-        function cerrar() {
-            document.getElementById('modal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        function cerrar() { playClick(); document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         function comprarPorWA() {
             const p = prendas[indexActual];
-            const mensaje = "¡Hola! Me interesa esta prenda de Val_Store 💋\n\nProducto: " + p.titulo + "\nFoto: " + p.img;
-            window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent(mensaje);
+            window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent("¡Hola! Me interesa: " + p.titulo + "\nFoto: " + p.img);
         }
 
-        // Navegación Táctil (Swipe)
+        // Swipe
         let touchstartX = 0;
         let touchendX = 0;
-        const modalElement = document.getElementById('modal');
-        
-        modalElement.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-        modalElement.addEventListener('touchend', e => {
+        document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.getElementById('modal').addEventListener('touchend', e => {
             touchendX = e.changedTouches[0].screenX;
             if (touchstartX - touchendX > 60) cambiarPrenda(1); 
             if (touchendX - touchstartX > 60) cambiarPrenda(-1); 
