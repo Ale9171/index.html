@@ -11,13 +11,13 @@
         .product-card { background: #ffffff; border-radius: 12px; overflow: hidden; cursor: pointer; color: #333; }
         .tag-nuevo { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.8); color: white; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
         
-        /* Estilo Modal 40584.jpg */
+        /* Interfaz Full Screen Estilo VAL_STORE */
         #modal { display: none; background: #000; transition: all 0.3s ease; }
-        .modal-content { background: white; border-radius: 30px 30px 0 0; width: 100%; position: absolute; bottom: 0; padding: 20px; text-align: center; color: black; }
-        .img-container { height: 65vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; top: -5vh; }
-        #m-img { max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 20px; }
+        .modal-content { background: white; border-radius: 30px 30px 0 0; width: 100%; position: absolute; bottom: 0; padding: 25px 20px; text-align: center; color: black; }
+        .img-container { height: 65vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; top: -2vh; }
+        #m-img { max-height: 90%; max-width: 95%; object-fit: contain; border-radius: 15px; }
         
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: white; padding: 15px; border-radius: 50%; font-size: 20px; z-index: 70; }
+        .nav-btn { position: absolute; top: 40%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 24px; z-index: 70; display: flex; align-items: center; justify-content: center; }
         .talla-badge { background: #f3f4f6; color: #6b7280; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid #e5e7eb; }
     </style>
 </head>
@@ -34,19 +34,19 @@
     </nav>
 
     <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-3 gap-4" id="galeria">
-        <!-- Los productos se cargan aquí -->
+        <!-- Generado por JS -->
     </main>
 
     <footer class="py-10 text-center border-t border-gray-800">
         <p class="text-[9px] text-gray-500 tracking-widest">© 2026 VAL_STORE • ENVIAMOS A TODA LA REPÚBLICA</p>
     </footer>
 
-    <!-- MODAL ESTILO 40584.jpg -->
+    <!-- MODAL PROFESIONAL -->
     <div id="modal" class="fixed inset-0 z-[60] flex flex-col items-center">
-        <!-- Botón Salir arriba izquierda -->
-        <button onclick="cerrar()" class="absolute top-6 left-6 text-white text-sm bg-white/10 px-4 py-2 rounded-full border border-white/20 z-[80]">✕ Salir</button>
+        <!-- Botón Salir -->
+        <button onclick="cerrar()" class="absolute top-6 left-6 text-white text-xs bg-white/10 px-4 py-2 rounded-full border border-white/20 z-[80] backdrop-blur-md">✕ Salir</button>
 
-        <!-- Flechas de navegación -->
+        <!-- Navegación -->
         <button onclick="cambiarPrenda(-1)" class="nav-btn left-2">‹</button>
         <button onclick="cambiarPrenda(1)" class="nav-btn right-2">›</button>
 
@@ -57,39 +57,33 @@
         <div class="modal-content shadow-2xl">
             <p id="m-marca" class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1"></p>
             <h2 id="m-titulo" class="text-xl font-bold text-black mb-1"></h2>
-            <p id="m-talla" class="text-gray-400 text-sm mb-4"></p>
+            <p id="m-talla" class="text-gray-400 text-xs mb-3"></p>
             <p id="m-precio" class="text-black font-bold text-3xl mb-6"></p>
-            <button onclick="comprarPorWA()" class="bg-[#E01E37] text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg">Preguntar por WhatsApp 💋</button>
+            <button onclick="comprarPorWA()" class="bg-[#E01E37] text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg active:scale-95 transition-transform">Preguntar por WhatsApp 💋</button>
         </div>
     </div>
 
     <script>
-        // BASE DE DATOS DE PRENDAS
+        // BASE DE DATOS ACTUALIZADA CON TUS IMÁGENES
         const prendas = [
-            { img: 'https://i.ibb.co/3mkH7jb/IMG-20260512-211127.jpg', titulo: 'Polo Exclusiva', precio: '$300', talla: 'M', marca: 'RALPH LAUREN' },
-            { img: 'https://i.ibb.co/nqYMpRG7/1778464851628.png', titulo: 'Chaqueta Trucker Denim', precio: '$450', talla: 'L', marca: 'LEVI\'S' }
+            { img: 'https://i.ibb.co/hFcZD64w/images-3.jpg', titulo: 'Playera Casual', precio: '$150', talla: 'M', marca: 'EXCLUSIVO' },
+            { img: 'https://i.ibb.co/ks3TKzXM/images-2.jpg', titulo: 'Blusa Estampada', precio: '$180', talla: 'S', marca: 'MARCA' },
+            { img: 'https://i.ibb.co/9PpL4cf/images-1.jpg', titulo: 'Suéter Ligero', precio: '$200', talla: 'L', marca: 'MARCA' },
+            { img: 'https://i.ibb.co/N6PxSPmk/images.jpg', titulo: 'Pantalón Denim', precio: '$250', talla: '32', marca: 'MARCA' },
+            { img: 'https://i.ibb.co/JRGYGWr4/ropa-de-segunda-mano.jpg', titulo: 'Lote Selección', precio: '$300', talla: 'Única', marca: 'VAL_STORE' }
         ];
-        // 
-        const prendas = [
-            { img: 'https://i.ibb.co/hFcZD64w/images-3.jpg', titulo: 'Prenda 1', precio: '$0.00', talla: 'M', marca: 'MARCA' },
-            { img: 'https://i.ibb.co/ks3TKzXM/images-2.jpg', titulo: 'Prenda 2', precio: '$0.00', talla: 'S', marca: 'MARCA' },
-            { img: 'https://i.ibb.co/9PpL4cf/images-1.jpg', titulo: 'Prenda 3', precio: '$0.00', talla: 'L', marca: 'MARCA' },
-            { img: 'https://i.ibb.co/N6PxSPmk/images.jpg', titulo: 'Prenda 4', precio: '$0.00', talla: 'XL', marca: 'MARCA' },
-            { img: 'https://i.ibb.co/JRGYGWr4/ropa-de-segunda-mano.jpg', titulo: 'Prenda 5', precio: '$0.00', talla: 'Única', marca: 'VAL_STORE' }
-        ];
-
 
         let indexActual = 0;
         const galeria = document.getElementById('galeria');
 
-        // Generar la galería automáticamente
+        // Crear cuadrícula de productos
         prendas.forEach((p, i) => {
             galeria.innerHTML += `
-                <div class="product-card relative" onclick="abrirModal(${i})">
+                <div class="product-card relative shadow-sm" onclick="abrirModal(${i})">
                     <div class="tag-nuevo">Nuevo</div>
                     <img src="${p.img}" class="w-full aspect-[3/4] object-cover">
                     <div class="p-3 bg-white">
-                        <p class="text-[9px] text-gray-400 font-bold uppercase">${p.marca}</p>
+                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">${p.marca}</p>
                         <h3 class="text-xs font-semibold text-gray-800 truncate">${p.titulo}</h3>
                         <div class="flex items-center justify-between mt-2">
                             <p class="font-bold text-black text-sm">${p.precio}</p>
@@ -134,15 +128,16 @@
             window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent(mensaje);
         }
 
-        // Lógica para deslizar (Swipe)
+        // Navegación Táctil (Swipe)
         let touchstartX = 0;
         let touchendX = 0;
+        const modalElement = document.getElementById('modal');
         
-        document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-        document.getElementById('modal').addEventListener('touchend', e => {
+        modalElement.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        modalElement.addEventListener('touchend', e => {
             touchendX = e.changedTouches[0].screenX;
-            if (touchstartX - touchendX > 50) cambiarPrenda(1); // Deslizar izquierda -> Siguiente
-            if (touchendX - touchstartX > 50) cambiarPrenda(-1); // Deslizar derecha -> Anterior
+            if (touchstartX - touchendX > 60) cambiarPrenda(1); 
+            if (touchendX - touchstartX > 60) cambiarPrenda(-1); 
         });
     </script>
 </body>
