@@ -27,13 +27,15 @@
     <!-- ESTE ES EL LUGAR QUE BUSCÁBAMOS -->
     <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-3 gap-4" id="galeria">
         
-        <!-- Prenda 1 -->
+            <!-- Prenda 1 -->
         <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm" onclick="verProducto('https://i.ibb.co/LzqMpxY/WhZbTGX.jpg', 'Playera Deportiva', '$250', 'M', 'Nueva')">
             <img src="https://i.ibb.co/LzqMpxY/WhZbTGX.jpg" class="w-full aspect-[3/4] object-cover">
             <div class="p-3">
                 <p class="text-[10px] text-gray-400 font-bold uppercase">VAL_STORE</p>
                 <h3 class="text-sm font-semibold truncate">Playera Deportiva</h3>
                 <p class="font-bold text-black mt-1">$250</p>
+                <!-- Aquí agregamos la talla visual -->
+                <p class="text-[11px] text-gray-500 mt-1">Talla: <span class="font-semibold text-black">M</span></p>
             </div>
         </div>
 
@@ -44,6 +46,7 @@
                 <p class="text-[10px] text-gray-400 font-bold uppercase">VAL_STORE</p>
                 <h3 class="text-sm font-semibold truncate">Polo Casual</h3>
                 <p class="font-bold text-black mt-1">$300</p>
+                <p class="text-[11px] text-gray-500 mt-1">Talla: <span class="font-semibold text-black">M</span></p>
             </div>
         </div>
 
@@ -54,19 +57,10 @@
                 <p class="text-[10px] text-gray-400 font-bold uppercase">VAL_STORE</p>
                 <h3 class="text-sm font-semibold truncate">Sudadera Sport</h3>
                 <p class="font-bold text-black mt-1">$450</p>
+                <p class="text-[11px] text-gray-500 mt-1">Talla: <span class="font-semibold text-black">M</span></p>
             </div>
         </div>
 
-        <!-- Nueva prenda -->
-        <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm" 
-             onclick="verProducto('https://i.ibb.co/fgfhcqW/IMG-20260512-211116.jpg', 'Nombre de Prenda', '$Precio', 'Talla', 'Estado')">
-            <img src="https://i.ibb.co/fgfhcqW/IMG-20260512-211116.jpg" class="w-full aspect-[3/4] object-cover">
-            <div class="p-3">
-                <p class="text-[10px] text-gray-400 font-bold uppercase">VAL_STORE</p>
-                <h3 class="text-sm font-semibold truncate">Adidas</h3>
-                <p class="font-bold text-black mt-1">$Precio</p>
-            </div>
-        </div>
 
     </main>
 
