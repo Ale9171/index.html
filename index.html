@@ -26,20 +26,16 @@
 
     <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-3 gap-4" id="galeria">
         
-               
-          <!-- Prenda 1 -->
+        <!-- Prenda Actualizada -->
         <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm" 
-             onclick="verProducto('https://i.ibb.co/3mkH7jbX/IMG-20260512-211127.jpg', 'Adidas blanca', '450Q', 'L')">
-            <img src="https://i.ibb.co/3mkH7jbX/IMG-20260512-211127.jpg" class="w-full aspect-[3/4] object-cover">
+             onclick="verProducto('https://i.ibb.co/3mkH7jb/3mkH7jbX.jpg', 'Polo Exclusiva', '$300', 'M')">
+            <img src="https://i.ibb.co/3mkH7jb/3mkH7jbX.jpg" class="w-full aspect-[3/4] object-cover">
             <div class="p-3 text-center">
-                <h3 class="text-sm font-semibold truncate">Sudadera Sport</h3>
+                <h3 class="text-sm font-semibold truncate">Polo Exclusiva</h3>
                 <p class="text-xs text-gray-500">Talla: M</p>
-                <p class="font-bold text-[#E01E37] mt-1">$450</p>
+                <p class="font-bold text-[#E01E37] mt-1">$300</p>
             </div>
         </div>
-
-
-        <!-- Puedes copiar el bloque de arriba para más prendas -->
 
     </main>
 
@@ -48,7 +44,7 @@
         <img id="m-img" class="max-w-full max-h-[50vh] rounded-lg mb-4 shadow-2xl">
         <div class="bg-white p-6 rounded-3xl w-full max-w-sm text-center" onclick="event.stopPropagation()">
             <h2 id="m-titulo" class="text-xl font-bold mb-1"></h2>
-            <p id="m-talla" class="text-gray-500 text-sm mb-1"></p> <!-- Talla en el modal -->
+            <p id="m-talla" class="text-gray-500 text-sm mb-1"></p>
             <p id="m-precio" class="text-[#E01E37] font-bold text-2xl mb-4"></p>
             <button onclick="comprarPorWA()" class="btn-whatsapp w-full py-3 rounded-2xl font-bold text-lg">Preguntar por WhatsApp 💋</button>
         </div>
@@ -60,7 +56,7 @@
 
         function verProducto(img, titulo, precio, talla) {
             itemNombre = titulo;
-            itemImagen = img; // Guardamos el link de la imagen
+            itemImagen = img; 
             document.getElementById('m-img').src = img;
             document.getElementById('m-titulo').innerText = titulo;
             document.getElementById('m-talla').innerText = "Talla: " + talla;
@@ -71,8 +67,11 @@
         function cerrar() { document.getElementById('modal').style.display = 'none'; }
 
         function comprarPorWA() {
-            // El mensaje ahora incluye el nombre y el link de la foto
-            const mensaje = "¡Hola! Me interesa esta prenda de Val_Store 💋\n\nProducto: " + itemNombre + "\nFoto: " + itemImagen;
+            // Mensaje optimizado para que WhatsApp reconozca el link de la foto al final
+            const mensaje = "¡Hola! Me interesa esta prenda de Val_Store 💋\n\n" + 
+                            "Producto: " + itemNombre + "\n" +
+                            "Foto: " + itemImagen;
+            
             window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent(mensaje);
         }
     </script>
