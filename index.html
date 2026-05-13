@@ -16,7 +16,7 @@
 <body>
     <nav class="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-50 flex items-center justify-between shadow-sm">
         <span class="font-bold text-2xl tracking-tighter">VAL_STORE💋</span>
-        <a href="https://wa.me/521XXXXXXXXXX" class="btn-whatsapp px-5 py-2 rounded-full text-xs font-bold uppercase shadow-md">WhatsApp</a>
+        <a href="https://wa.me/50259647654" class="btn-whatsapp px-5 py-2 rounded-full text-xs font-bold uppercase shadow-md">WhatsApp</a>
     </nav>
 
     <header class="text-center py-10 bg-white">
@@ -33,6 +33,17 @@
                 <h3 class="text-sm font-semibold truncate">Playera Deportiva</h3>
                 <p class="text-xs text-gray-500">Talla: M</p> <!-- Talla debajo del nombre -->
                 <p class="font-bold text-[#E01E37] mt-1">$250</p>
+            </div>
+        </div>
+
+        <!-- Nueva Prenda -->
+        <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm" 
+             onclick="verProducto('LINK_DE_IMGBB', 'ADIDAS BLANCA', '25Q', 'M', 'SEMI NUEVA')">
+            <img src="LINK_DE_IMGBB" class="w-full aspect-[3/4] object-cover">
+            <div class="p-3">
+                <p class="text-[10px] text-gray-400 font-bold uppercase">VAL_STORE</p>
+                <h3 class="text-sm font-semibold truncate">NOMBRE</h3>
+                <p class="font-bold text-black mt-1">$PRECIO</p>
             </div>
         </div>
 
@@ -70,7 +81,7 @@
         function comprarPorWA() {
             // El mensaje ahora incluye el nombre y el link de la foto
             const mensaje = "¡Hola! Me interesa esta prenda de Val_Store 💋\n\nProducto: " + itemNombre + "\nFoto: " + itemImagen;
-            window.location.href = "https://wa.me/521XXXXXXXXXX?text=" + encodeURIComponent(mensaje);
+            window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent(mensaje);
         }
     </script>
 </body>
