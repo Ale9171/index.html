@@ -151,16 +151,18 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        function comprarPorWA() {
+                function comprarPorWA() {
             const p = prendas[indexActual];
-            // Mensaje recomendado con detalles del producto
             const mensaje = "¡Hola Val_Store! 💋 Me interesa esta prenda:\n\n" + 
                             "📌 Producto: " + p.titulo + "\n" +
                             "💰 Precio: " + p.precio + "\n" +
-                            "📏 Talla: " + p.talla + "\n\n" +
+                            "📏 Talla: " + p.talla + "\n" + 
+                            "🖼️ Imagen: " + p.img + "\n\n" +
                             "¿Sigue disponible?";
+            
             window.location.href = "https://wa.me/50240283552?text=" + encodeURIComponent(mensaje);
         }
+
 
         let touchstartX = 0;
         let touchendX = 0;
