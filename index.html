@@ -25,9 +25,9 @@
 </head>
 <body>
 
-    <!-- Música de fondo (Volumen 5%) -->
+    <!-- Música de fondo: Showreel Music de Pixabay (Volumen 10%) -->
     <audio id="bg-music" loop>
-        <source src="https://pixabay.com/es/music/futuro-bajo-showreel-music-promo-advertising-opener-vlog-background-intro-theme-261601/" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/audio/2025/02/05/audio_5027581b16.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Sonido de Clic (Volumen 100%) -->
@@ -76,11 +76,10 @@
         const bgMusic = document.getElementById('bg-music');
         const clickSfx = document.getElementById('click-sound');
 
-        // Configuración de volúmenes
-        bgMusic.volume = 0.20; 
-        clickSfx.volume = 0.60;
+        bgMusic.volume = 0.10; 
+        clickSfx.volume = 0.100;
 
-        // Detener música si el usuario sale de la pestaña
+        // Auto-pausa al salir de la pestaña para evitar molestias
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 bgMusic.pause();
@@ -154,6 +153,7 @@
 
         function comprarPorWA() {
             const p = prendas[indexActual];
+            // Contacto de Guatemala integrado para VAL_STORE💋
             window.location.href = "https://wa.me/50259647654?text=" + encodeURIComponent("¡Hola! Me interesa: " + p.titulo + "\nPrecio: " + p.precio);
         }
 
