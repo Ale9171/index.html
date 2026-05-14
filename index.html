@@ -27,7 +27,7 @@
 
     <!-- Música de fondo: Showreel Music de Pixabay (Volumen 20%) -->
     <audio id="bg-music" loop>
-        <source src="music.mp3"type="audio/mpeg">
+        <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Sonido de Clic (Volumen 100%) -->
@@ -44,7 +44,8 @@
 
     <nav class="bg-white border-t border-gray-100 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
         <span class="font-bold text-lg tracking-tighter text-black">VAL_STORE💋</span>
-        <a href="https://wa.me/50240283552" class="bg-black text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">WhatsApp</a>
+        <!-- WhatsApp con mensaje automático general -->
+        <a href="https://wa.me/50240283552?text=¡Hola%20Val_Store!%20💋%20He%20visto%20tu%20catálogo%20y%20me%20gustaría%20recibir%20más%20información." class="bg-black text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">WhatsApp</a>
     </nav>
 
     <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-3 gap-4" id="galeria"></main>
@@ -77,9 +78,8 @@
         const clickSfx = document.getElementById('click-sound');
 
         bgMusic.volume = 0.20; 
-        clickSfx.volume = 0.100;
+        clickSfx.volume = 1.0; // Ajustado a 1.0 para representar el 100% que solicitaste anteriormente
 
-        // Auto-pausa al salir de la pestaña para evitar molestias
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 bgMusic.pause();
@@ -153,8 +153,13 @@
 
         function comprarPorWA() {
             const p = prendas[indexActual];
-            // Contacto de Guatemala integrado para VAL_STORE💋
-            window.location.href = "https://wa.me/50240283552?text=" + encodeURIComponent("¡Hola! Me interesa: " + p.titulo + "\nPrecio: " + p.precio);
+            // Mensaje recomendado con detalles del producto
+            const mensaje = "¡Hola Val_Store! 💋 Me interesa esta prenda:\n\n" + 
+                            "📌 Producto: " + p.titulo + "\n" +
+                            "💰 Precio: " + p.precio + "\n" +
+                            "📏 Talla: " + p.talla + "\n\n" +
+                            "¿Sigue disponible?";
+            window.location.href = "https://wa.me/50240283552?text=" + encodeURIComponent(mensaje);
         }
 
         let touchstartX = 0;
