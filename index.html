@@ -3,76 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL_STORE💋</title>
+    <title>VAL_STORE💋 | Premium Catalog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #000; color: #fff; font-family: sans-serif; }
-        .hidden { display: none; }
-        .card { background: #111; padding: 10px; border-radius: 10px; }
+        body { background-color: #080808; color: #fff; font-family: sans-serif; }
+        .product-card { background: #111; border-radius: 16px; overflow: hidden; cursor: pointer; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
     </style>
 </head>
 <body>
 
-    <div id="inicio" class="fixed inset-0 flex flex-col items-center justify-center z-50 bg-black">
-        <h1 class="text-4xl font-black mb-8">VAL_STORE<span class="text-red-500">💋</span></h1>
-        <button onclick="iniciar()" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest">Explorar Catálogo</button>
-    </div>
+    <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
-    <nav id="nav" class="hidden p-4 flex justify-between items-center border-b border-gray-800">
-        <h2 class="font-bold">VAL_STORE💋</h2>
+    <nav class="p-6 flex justify-between items-center border-b border-gray-800">
+        <h1 class="font-black text-xl">VAL_STORE<span class="text-red-500">💋</span></h1>
         <div class="flex gap-4 text-xl">
             <a href="#"><i class="fab fa-instagram"></i></a>
             <a href="#"><i class="fab fa-facebook"></i></a>
             <a href="https://wa.me/50240283552" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <button onclick="toggleMusic()">🎵</button>
         </div>
     </nav>
 
-    <main id="catalogo" class="hidden p-4 grid grid-cols-2 gap-4">
-        </main>
+    <main class="p-6 grid grid-cols-2 md:grid-cols-4 gap-4" id="galeria"></main>
 
-    <audio id="audio" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <div id="modal" class="fixed inset-0 bg-black/90 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-[#111] p-6 rounded-2xl max-w-sm w-full relative">
+            <button onclick="cerrarModal()" class="absolute top-2 right-2 text-xl">✕</button>
+            <img id="m-img" src="" class="w-full h-60 object-cover rounded-lg">
+            <h2 id="m-titulo" class="text-xl font-bold mt-4"></h2>
+            <p id="m-precio" class="text-red-500 font-bold"></p>
+            <a id="btn-wa" href="" target="_blank" class="block w-full bg-red-600 text-center py-3 mt-4 rounded-lg font-bold">Pedir por WhatsApp</a>
+        </div>
+    </div>
 
     <script>
-        const audio = document.getElementById('audio');
+        const prendas = [
+            { titulo: 'Blusa roja', precio: 'Q25', img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg' },
+            { titulo: 'Pantalón negro', precio: 'Q50', img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg' }
+            // Agrega aquí el resto de tus objetos siguiendo este mismo formato
+        ];
 
-        // Detener música al salir del navegador
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden) {
-                audio.pause();
-            }
+        const audio = document.getElementById('bg-music');
+
+        // Renderizar Galería
+        const galeria = document.getElementById('galeria');
+        prendas.forEach((p, index) => {
+            galeria.innerHTML += `
+                <div class="product-card" onclick="abrirModal(${index})">
+                    <img src="${p.img}" class="w-full h-40 object-cover">
+                    <div class="p-3">
+                        <p class="font-bold text-sm">${p.titulo}</p>
+                        <p class="text-red-500">${p.precio}</p>
+                    </div>
+                </div>
+            `;
         });
 
-        function iniciar() {
-            // Ocultar inicio, mostrar resto
-            document.getElementById('inicio').classList.add('hidden');
-            document.getElementById('nav').classList.remove('hidden');
-            document.getElementById('catalogo').classList.remove('hidden');
-            
-            // Intentar reproducir música
-            audio.play().catch(e => console.log("Esperando interacción"));
-            
-            renderizar();
+        function abrirModal(i) {
+            const p = prendas[i];
+            document.getElementById('m-img').src = p.img;
+            document.getElementById('m-titulo').innerText = p.titulo;
+            document.getElementById('m-precio').innerText = p.precio;
+            document.getElementById('btn-wa').href = `https://wa.me/50240283552?text=Me interesa: ${p.titulo}`;
+            document.getElementById('modal').classList.remove('hidden');
+            audio.play().catch(e => console.log("Click para iniciar audio"));
         }
 
-        function renderizar() {
-            // Lista de productos
-            const prendas = [
-                { titulo: 'Blusa roja', precio: 'Q25', img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg' },
-                { titulo: 'Pantalón negro', precio: 'Q50', img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg' }
-            ];
-
-            const catalogo = document.getElementById('catalogo');
-            catalogo.innerHTML = prendas.map(p => `
-                <div class="card">
-                    <img src="${p.img}" class="w-full h-40 object-cover rounded">
-                    <p class="text-sm mt-2">${p.titulo}</p>
-                    <p class="text-red-500 font-bold">${p.precio}</p>
-                </div>
-            `).join('');
+        function cerrarModal() {
+            document.getElementById('modal').classList.add('hidden');
         }
+
+        function toggleMusic() {
+            audio.paused ? audio.play() : audio.pause();
+        }
+
+        // Lógica: Detener música al salir del navegador
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) audio.pause();
+        });
     </script>
 </body>
 </html>
