@@ -3,116 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL_STORE💋 | Premium Catalog</title>
+    <title>VAL_STORE💋</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --brand-red: #E01E37; --bg-dark: #080808; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #ffffff; overflow-x: hidden; margin: 0; }
-
-        /* Animación Zoom para Visualizar Prenda */
-        .zoom-in { animation: zoomIn 0.3s ease-out forwards; }
-        @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        #intro-bg { position: fixed; inset: 0; background-color: #000; z-index: 150; transition: opacity 1s ease; }
-        #animated-logo { position: fixed; z-index: 200; white-space: nowrap; transition: all 1.2s cubic-bezier(0.87, 0, 0.13, 1); }
-        .pos-center { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; }
-        .pos-nav { top: 18px; left: 24px; font-size: 1.25rem; }
-
-        #hero { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: all 1s ease; }
-        .glass-nav { background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); opacity: 0; transition: opacity 1s ease; }
-        .category-btn { font-weight: 600; font-size: 0.8rem; color: #888; transition: all 0.3s; padding: 0.5rem 1rem; }
-        .category-btn.active { color: #fff; border-bottom: 2px solid var(--brand-red); }
-        .product-card { background: #111; border-radius: 16px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; }
-        .product-card:hover { transform: translateY(-5px); }
-        .discount-tag { background: var(--brand-red); padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; }
-        .reveal-up { animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; }
-        @keyframes revealUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        body { background-color: #000; color: #fff; font-family: sans-serif; }
+        .hidden { display: none; }
+        .card { background: #111; padding: 10px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+    <div id="inicio" class="fixed inset-0 flex flex-col items-center justify-center z-50 bg-black">
+        <h1 class="text-4xl font-black mb-8">VAL_STORE<span class="text-red-500">💋</span></h1>
+        <button onclick="iniciar()" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest">Explorar Catálogo</button>
+    </div>
 
-    <div id="animated-logo" class="font-black text-white tracking-tighter pos-center">VAL_STORE<span class="text-[#E01E37]">💋</span></div>
-    <div id="intro-bg"></div>
-
-    <section id="hero">
-        <button onclick="startExperience()" class="bg-white text-black px-12 py-4 rounded-full font-black text-[13px] uppercase tracking-widest hover:bg-[#E01E37] hover:text-white transition-all transform hover:scale-105">Explorar Catálogo</button>
-    </section>
-
-    <nav id="main-nav" class="glass-nav fixed top-0 w-full z-[90] px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="w-[120px]"></div>
-            <div class="hidden md:flex gap-4">
-                <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
-                <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
-                <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
-            </div>
-            <div class="flex items-center gap-4 text-xl">
-                <a href="https://instagram.com" target="_blank" class="hover:text-[#E01E37]"><i class="fab fa-instagram"></i></a>
-                <a href="https://facebook.com" target="_blank" class="hover:text-[#E01E37]"><i class="fab fa-facebook"></i></a>
-                <a href="https://wa.me/50240283552?text=¡Hola!%20Val_Store%20💋,%20me%20gustaría%20saber%20más%20sobre%20sus%20productos." target="_blank" class="hover:text-[#E01E37]"><i class="fab fa-whatsapp"></i></a>
-            </div>
+    <nav id="nav" class="hidden p-4 flex justify-between items-center border-b border-gray-800">
+        <h2 class="font-bold">VAL_STORE💋</h2>
+        <div class="flex gap-4 text-xl">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/50240283552" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 py-24">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="galeria"></div>
-    </main>
+    <main id="catalogo" class="hidden p-4 grid grid-cols-2 gap-4">
+        </main>
 
-    <div id="modal" class="fixed inset-0 z-[250] hidden bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
-        <button onclick="cerrar()" class="absolute top-6 left-6 bg-white/10 text-white px-5 py-2 rounded-full font-bold text-sm z-[260]">✕ Salir</button>
-        <div id="modal-container" class="bg-[#111] w-full max-w-4xl h-[70vh] rounded-3xl overflow-hidden flex flex-col md:flex-row zoom-in">
-            <img id="m-img" src="" class="w-full md:w-1/2 h-64 md:h-full object-cover">
-            <div class="p-8 flex flex-col justify-center">
-                <h2 id="m-titulo" class="text-3xl font-black"></h2>
-                <p id="m-precio" class="text-xl text-[#E01E37] mt-2 mb-6"></p>
-                <button onclick="comprarPorWA()" class="w-full bg-[#E01E37] text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-red-700 transition">Preguntar por WhatsApp 💋</button>
-            </div>
-        </div>
-    </div>
+    <audio id="audio" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // (Tu misma lista de prendas aquí...)
-        const prendas = [ /* Tu lista... */ ];
-        const bgMusic = document.getElementById('bg-music');
+        const audio = document.getElementById('audio');
 
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('animated-logo').classList.replace('pos-center', 'pos-nav');
-                document.getElementById('intro-bg').style.opacity = '0';
-                document.getElementById('hero').style.opacity = '1';
-                setTimeout(() => document.getElementById('intro-bg').style.display = 'none', 1000);
-            }, 1200);
+        // Lógica para detener música al salir del navegador/pestaña
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                audio.pause();
+            } else {
+                // Opcional: audio.play(); // Si quieres que suene al volver
+            }
         });
 
-        function startExperience() {
-            document.getElementById('hero').style.display = 'none';
-            document.getElementById('main-nav').style.opacity = '1';
-            bgMusic.play().catch(e => console.log("Audio bloqueado"));
-            renderGaleria();
+        function iniciar() {
+            document.getElementById('inicio').classList.add('hidden');
+            document.getElementById('nav').classList.remove('hidden');
+            document.getElementById('catalogo').classList.remove('hidden');
+            
+            // Iniciar música
+            audio.play().catch(e => console.log("Esperando interacción..."));
+            
+            renderizar();
         }
 
-        function cerrar() {
-            document.getElementById('modal').classList.replace('flex', 'hidden');
-            bgMusic.pause(); // Para la música al cerrar el catálogo/visualización
-            bgMusic.currentTime = 0; // Reinicia audio
-        }
+        function renderizar() {
+            const prendas = [
+                { titulo: 'Blusa roja', precio: 'Q25', img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg' },
+                { titulo: 'Pantalón negro', precio: 'Q50', img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg' }
+                // Agrega aquí todas tus prendas en formato {titulo, precio, img}
+            ];
 
-        function abrirModal(index) {
-            // Lógica de apertura...
-            document.getElementById('modal').classList.replace('hidden', 'flex');
+            const catalogo = document.getElementById('catalogo');
+            catalogo.innerHTML = prendas.map(p => `
+                <div class="card">
+                    <img src="${p.img}" class="w-full h-40 object-cover rounded">
+                    <p class="text-sm mt-2">${p.titulo}</p>
+                    <p class="text-red-500 font-bold">${p.precio}</p>
+                </div>
+            `).join('');
         }
-
-        function comprarPorWA() {
-            const p = prendas[indexActual];
-            const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda: ${p.titulo}. ¿Sigue disponible?`;
-            window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
-        }
-        
-        // ... (resto de tus funciones de renderizado)
     </script>
 </body>
 </html>
