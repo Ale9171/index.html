@@ -10,17 +10,33 @@
         :root { --brand-red: #E01E37; --bg-dark: #080808; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #ffffff; overflow-x: hidden; margin: 0; }
 
-        /* --- ANIMACIÓN INICIAL --- */
+        /* --- ANIMACIÓN INICIAL PREMIUM Y RÁPIDA --- */
         #intro-bg {
             position: fixed; inset: 0; background-color: #000; z-index: 150;
-            transition: opacity 1s ease;
+            transition: opacity 0.4s ease; /* Transición más rápida al ocultarse */
         }
 
         #animated-logo {
             position: fixed; z-index: 200; white-space: nowrap;
-            transition: all 1.2s cubic-bezier(0.87, 0, 0.13, 1);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1); /* Movimiento más rápido y dinámico */
         }
         
+        /* Animación de aparición del texto letra por letra */
+        .reveal-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid transparent;
+            animation: typing 0.6s steps(10, end) forwards;
+        }
+
+        @keyframes typing {
+            from { width: 0; border-right-color: var(--brand-red); }
+            99% { border-right-color: var(--brand-red); }
+            to { width: 100%; border-right-color: transparent; }
+        }
+
         /* Estado inicial (Centro) */
         .pos-center {
             top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -31,7 +47,7 @@
         /* Estado final (Esquina superior izquierda) */
         .pos-nav {
             top: 18px; left: 24px; transform: translate(0, 0);
-            font-size: 1.25rem; /* Tamaño de logo de la navbar */
+            font-size: 1.25rem;
         }
 
         /* --- PANTALLA HERO --- */
@@ -39,7 +55,7 @@
             position: fixed; inset: 0; z-index: 100;
             background: radial-gradient(circle at center, #1a1a1a 0%, #080808 100%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transition: all 1s ease;
+            opacity: 0; transition: opacity 0.5s ease;
         }
         /* Brillo de fondo */
         .glow-hero {
@@ -51,7 +67,7 @@
         .glass-nav {
             background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            opacity: 0; transition: opacity 1s ease;
+            opacity: 0; transition: opacity 0.5s ease;
         }
 
         .category-btn {
@@ -101,7 +117,7 @@
     <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
     <div id="animated-logo" class="font-black text-white tracking-tighter pos-center">
-        VAL_STORE<span class="text-[#E01E37]">💋</span>
+        <span class="reveal-text">VAL_STORE<span class="text-[#E01E37]">💋</span></span>
     </div>
 
     <div id="intro-bg"></div>
@@ -226,20 +242,24 @@
             }
         });
 
-        // LÓGICA DE ANIMACIÓN INICIAL
+        // LÓGICA DE ANIMACIÓN INICIAL DINÁMICA Y ACELERADA
         window.addEventListener('load', () => {
+            // El texto tarda 0.6s en completarse. Esperamos a los 0.6s exactos para mover el logo.
             setTimeout(() => {
                 const logo = document.getElementById('animated-logo');
                 logo.classList.remove('pos-center');
-                logo.classList.add('pos-nav'); 
+                logo.classList.add('pos-nav'); // Se mueve rápido a la esquina superior izquierda
                 
+                // Mientras el logo se desplaza, ocultamos el fondo negro inicial
                 document.getElementById('intro-bg').style.opacity = '0';
+                
+                // Activamos inmediatamente la visualización de la fase del botón Hero
                 document.getElementById('hero').style.opacity = '1';
                 
                 setTimeout(() => {
                     document.getElementById('intro-bg').style.display = 'none';
-                }, 1000);
-            }, 1200);
+                }, 400);
+            }, 650); // Ajuste preciso para encadenar las fases de inmediato
         });
 
         function startExperience() {
@@ -304,9 +324,8 @@
             const p = prendas[indexActual];
             const imgEl = document.getElementById('m-img');
             
-            // Reiniciar animación para que corra cada vez que cambia la imagen
             imgEl.classList.remove('anim-pop');
-            void imgEl.offsetWidth; // Trigger reflow
+            void imgEl.offsetWidth; 
             
             imgEl.src = p.img;
             imgEl.classList.add('anim-pop');
@@ -348,7 +367,6 @@
             }
         }
 
-        // Deslizar con el dedo en el modal (Swipe)
         let touchstartX = 0;
         document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
         document.getElementById('modal').addEventListener('touchend', e => {
