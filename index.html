@@ -10,44 +10,37 @@
         :root { --brand-red: #E01E37; --bg-dark: #080808; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #ffffff; overflow-x: hidden; margin: 0; }
 
-        /* --- ANIMACIÓN INICIAL PREMIUM Y RÁPIDA --- */
+        /* --- ANIMACIÓN INICIAL OPTIMIZADA --- */
         #intro-bg {
             position: fixed; inset: 0; background-color: #000; z-index: 150;
-            transition: opacity 0.4s ease; /* Transición más rápida al ocultarse */
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         #animated-logo {
             position: fixed; z-index: 200; white-space: nowrap;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1); /* Movimiento más rápido y dinámico */
+            opacity: 0;
+            animation: fadeInLogo 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
-        /* Animación de aparición del texto letra por letra */
-        .reveal-text {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid transparent;
-            animation: typing 0.6s steps(10, end) forwards;
+        @keyframes fadeInLogo {
+            0% { opacity: 0; transform: translate(-50%, -45%) scale(0.95); filter: blur(4px); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
         }
-
-        @keyframes typing {
-            from { width: 0; border-right-color: var(--brand-red); }
-            99% { border-right-color: var(--brand-red); }
-            to { width: 100%; border-right-color: transparent; }
-        }
-
+        
         /* Estado inicial (Centro) */
         .pos-center {
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            top: 50%; left: 50%;
             font-size: 3rem; 
         }
         @media (min-width: 768px) { .pos-center { font-size: 5rem; } }
 
         /* Estado final (Esquina superior izquierda) */
         .pos-nav {
-            top: 18px; left: 24px; transform: translate(0, 0);
+            top: 18px; left: 24px; transform: translate(0, 0) !important;
             font-size: 1.25rem;
+            animation: none !important;
+            opacity: 1 !important;
         }
 
         /* --- PANTALLA HERO --- */
@@ -55,7 +48,7 @@
             position: fixed; inset: 0; z-index: 100;
             background: radial-gradient(circle at center, #1a1a1a 0%, #080808 100%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.5s ease;
+            opacity: 0; transition: opacity 1s ease;
         }
         /* Brillo de fondo */
         .glow-hero {
@@ -67,7 +60,7 @@
         .glass-nav {
             background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            opacity: 0; transition: opacity 0.5s ease;
+            opacity: 0; transition: opacity 0.8s ease;
         }
 
         .category-btn {
@@ -117,7 +110,7 @@
     <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
     <div id="animated-logo" class="font-black text-white tracking-tighter pos-center">
-        <span class="reveal-text">VAL_STORE<span class="text-[#E01E37]">💋</span></span>
+        VAL_STORE<span class="text-[#E01E37]">💋</span>
     </div>
 
     <div id="intro-bg"></div>
@@ -234,7 +227,6 @@
         let currentFilter = 'Mujer';
         const bgMusic = document.getElementById('bg-music');
 
-        // Detener música al salir de la pestaña, ir a WhatsApp o minimizar el navegador
         document.addEventListener("visibilitychange", function() {
             if (document.hidden && !bgMusic.paused) {
                 bgMusic.pause();
@@ -242,24 +234,21 @@
             }
         });
 
-        // LÓGICA DE ANIMACIÓN INICIAL DINÁMICA Y ACELERADA
+        // ANIMACIÓN INICIAL EN CADENA COMPACTA Y SUAVE
         window.addEventListener('load', () => {
-            // El texto tarda 0.6s en completarse. Esperamos a los 0.6s exactos para mover el logo.
+            // Espera 1.6 segundos en el centro para que se aprecie completamente el logo antes de moverse
             setTimeout(() => {
                 const logo = document.getElementById('animated-logo');
                 logo.classList.remove('pos-center');
-                logo.classList.add('pos-nav'); // Se mueve rápido a la esquina superior izquierda
+                logo.classList.add('pos-nav'); 
                 
-                // Mientras el logo se desplaza, ocultamos el fondo negro inicial
                 document.getElementById('intro-bg').style.opacity = '0';
-                
-                // Activamos inmediatamente la visualización de la fase del botón Hero
                 document.getElementById('hero').style.opacity = '1';
                 
                 setTimeout(() => {
                     document.getElementById('intro-bg').style.display = 'none';
-                }, 400);
-            }, 650); // Ajuste preciso para encadenar las fases de inmediato
+                }, 1000);
+            }, 1600);
         });
 
         function startExperience() {
