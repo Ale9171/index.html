@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL_STORE💋 | Catálogo</title>
+    <title>VAL_STORE💋 | Premium Catalog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background-color: #000; color: #fff; font-family: sans-serif; margin: 0; }
-        
-        /* Animación inicial */
         #animated-logo { position: fixed; z-index: 300; transition: all 1s ease; font-weight: 900; }
-        .pos-center { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; } /* Reducido */
+        .pos-center { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; }
         .pos-nav { top: 15px; left: 20px; font-size: 1.2rem; }
-        
-        /* Contenedor del catálogo */
-        .galeria-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-        .card { background: #111; border-radius: 10px; overflow: hidden; }
+        .grid-catalogo { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
+        .card { background: #111; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+        .card:hover { transform: scale(1.02); }
         .card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
     </style>
 </head>
@@ -25,56 +22,69 @@
     <div id="animated-logo" class="pos-center text-white">VAL_STORE<span class="text-red-500">💋</span></div>
     
     <div id="intro-bg" class="fixed inset-0 bg-black z-20 flex flex-col items-center justify-center">
-        <button id="btn-explorar" onclick="startExperience()" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase text-sm tracking-widest hover:bg-red-500 hover:text-white transition">Explorar Catálogo</button>
+        <button onclick="startExperience()" class="bg-white text-black px-8 py-3 rounded-full font-bold uppercase text-sm hover:bg-red-500 hover:text-white transition">Explorar Catálogo</button>
     </div>
 
     <nav id="main-nav" class="fixed top-0 w-full z-40 p-4 flex justify-between items-center opacity-0 transition-opacity duration-1000">
-        <div class="w-10"></div> <div class="flex gap-4 text-xl">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/50240283552?text=¡Hola!%20Vi%20su%20catálogo%20y%20me%20gustaría%20saber%20más." target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <div class="w-10"></div> 
+        <div class="flex gap-5 text-xl">
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/50240283552?text=¡Hola!%20Val_Store%20💋,%20me%20gustaría%20saber%20más%20sobre%20sus%20productos." target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
     </nav>
 
     <main id="catalogo" class="pt-20 hidden">
-        <div id="galeria" class="galeria-grid">
-            </div>
+        <div id="galeria" class="grid-catalogo"></div>
     </main>
 
     <script>
-        // Array de prendas (asegúrate de tener tus datos aquí)
         const prendas = [
-            { img: 'https://i.ibb.co/ZpSKqZgK/IMG-20260513-WA0009.jpg', titulo: 'Pantalón café', precio: 'Q50' },
-            { img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg', titulo: 'Pantalón negro', precio: 'Q50' }
-            // Agrega aquí el resto de tus imágenes...
+            { img: 'https://i.ibb.co/ZpSKqZgK/IMG-20260513-WA0009.jpg', titulo: 'Pantalón de cuero café', precio: 'Q50' },
+            { img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg', titulo: 'Pantalón de cuero negro', precio: 'Q50' },
+            { img: 'https://i.ibb.co/nsZf8BQw/IMG-20260513-WA0011.jpg', titulo: 'Pantalón de lona', precio: 'Q60' },
+            { img: 'https://i.ibb.co/35s9BhSJ/IMG-20260513-WA0013.jpg', titulo: 'Blusa corte bardot', precio: 'Q25' },
+            { img: 'https://i.ibb.co/n8nYrnLq/IMG-20260513-WA0014.jpg', titulo: 'Blusa con brillante', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/s9Hxf0wj/IMG-20260513-WA0015.jpg', titulo: 'Traje de baño negro', precio: 'Q25' },
+            { img: 'https://i.ibb.co/8n5ZzFgy/IMG-20260513-WA0016.jpg', titulo: 'Short de lona', precio: 'Q30' },
+            { img: 'https://i.ibb.co/cXg2zcd9/IMG-20260513-WA0018.jpg', titulo: 'Hoddie negro corto', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/DqDmSSs/IMG-20260513-WA0019.jpg', titulo: 'Suéter casual', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/Qvgn64G5/IMG-20260513-WA0020.jpg', titulo: 'Estilo old money', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/fY0zjq3f/IMG-20260513-WA0021.jpg', titulo: 'Estilo old money', precio: 'Q35' },
+            { img: 'https://i.ibb.co/hxsM3Txd/IMG-20260513-WA0022.jpg', titulo: 'Blusa básica', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/DPLhVHWh/IMG-20260513-WA0023.jpg', titulo: 'Blusa con escote bardot', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg', titulo: 'Suéter corto', precio: 'Q35' },
+            { img: 'https://i.ibb.co/kgzyHBMy/IMG-20260513-WA0025.jpg', titulo: 'Blusa básica', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/j9vxMPND/IMG-20260513-WA0026.jpg', titulo: 'Suéter casual', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/GQMfthzg/IMG-20260513-WA0027.jpg', titulo: 'Blusa formal', precio: 'Q25' },
+            { img: 'https://i.ibb.co/twSTfCt3/IMG-20260513-WA0028.jpg', titulo: 'Blusa corte bardot', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/yBhHQDry/IMG-20260513-WA0029.jpg', titulo: 'Camisa polo', precio: 'Q40' },
+            { img: 'https://i.ibb.co/xcLDYZ5/IMG-20260513-WA0030.jpg', titulo: 'Suéter caballero', precio: 'Q35' },
+            { img: 'https://i.ibb.co/ytntRSB/IMG-20260513-WA0031.jpg', titulo: 'Playera/Suéter', precio: 'Q60' },
+            { img: 'https://i.ibb.co/Mx3hBHn8/IMG-20260513-WA0032.jpg', titulo: 'Camisa', precio: 'VENDIDA' },
+            { img: 'https://i.ibb.co/d0gjxc9X/IMG-20260513-WA0033.jpg', titulo: 'Chumpa nena', precio: 'Q60' },
+            { img: 'https://i.ibb.co/MFPFfxd/IMG-20260513-WA0034.jpg', titulo: 'Chumpa nena', precio: 'Q35' }
         ];
 
         function startExperience() {
-            // Ocultar pantalla inicial
             document.getElementById('intro-bg').style.display = 'none';
             document.getElementById('animated-logo').classList.replace('pos-center', 'pos-nav');
-            
-            // Mostrar elementos
             document.getElementById('main-nav').style.opacity = '1';
             document.getElementById('catalogo').classList.remove('hidden');
-            
             renderGaleria();
         }
 
         function renderGaleria() {
             const container = document.getElementById('galeria');
-            container.innerHTML = '';
-            prendas.forEach(p => {
-                container.innerHTML += `
-                    <div class="card">
-                        <img src="${p.img}" alt="${p.titulo}">
-                        <div class="p-3">
-                            <p class="text-sm font-bold">${p.titulo}</p>
-                            <p class="text-red-500">${p.precio}</p>
-                        </div>
+            container.innerHTML = prendas.map(p => `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.titulo}">
+                    <div class="p-3">
+                        <p class="text-[12px] font-bold">${p.titulo}</p>
+                        <p class="text-red-500 font-bold">${p.precio}</p>
                     </div>
-                `;
-            });
+                </div>
+            `).join('');
         }
     </script>
 </body>
