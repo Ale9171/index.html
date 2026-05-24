@@ -25,14 +25,14 @@
         #music-control { position: fixed; bottom: 20px; right: 20px; z-index: 100; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 18px; transition: transform 0.2s; }
         #music-control:active { transform: scale(0.9); }
 
-        /* --- NUEVAS ANIMACIONES --- */
+        /* --- ANIMACIONES CORREGIDAS --- */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .anim-card {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0; /* Inicia oculto para que la animación lo revele */
+            /* Se eliminó la invisibilidad fija para compatibilidad con todos los móviles */
+            animation: fadeInUp 0.5s ease-out backwards;
         }
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -51,7 +51,7 @@
         }
     </style>
 </head>
-<body class="animate-[fadeIn_1s_ease-out]">
+<body>
 
     <audio id="bg-music" loop>
         <source src="musica.mp3" type="audio/mpeg">
@@ -82,4 +82,156 @@
         <div class="img-container"><img id="m-img" src=""></div>
         <div class="modal-content shadow-2xl">
             <p id="m-marca" class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1"></p>
-            <h2 id="m-titulo" class="text
+            <h2 id="m-titulo" class="text-xl font-bold text-black mb-1"></h2>
+            <p id="m-talla" class="text-gray-400 text-xs mb-3"></p>
+            <p id="m-precio" class="text-black font-bold text-3xl mb-6"></p>
+            <button onclick="comprarPorWA()" class="bg-[#E01E37] text-white w-full py-4 rounded-2xl font-bold text-lg shadow-lg transform hover:scale-[1.02] transition">Preguntar por WhatsApp 💋</button>
+        </div>
+    </div>
+
+    <script>
+        const prendas = [
+            { img: 'https://i.ibb.co/ZpSKqZgK/IMG-20260513-WA0009.jpg', titulo: 'Pantalon de cuero cafe', precio: 'Q50', talla: 'M', marca: 'OLD NAVI' },
+            { img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg', talla: 'S', precio: 'Q50', titulo: 'Pantalon de cuero negro', marca: 'OLD NAVI' },
+            { img: 'https://i.ibb.co/nsZf8BQw/IMG-20260513-WA0011.jpg', titulo: 'Pantalon de lona', precio: 'Q60', talla: 'S', marca: 'LEVI STRAUSS' },
+            { img: 'https://i.ibb.co/35s9BhSJ/IMG-20260513-WA0013.jpg', titulo: 'Blusa corte bardot', precio: 'Q25', talla: 'S/M', marca: 'MARCA' },
+            { img: 'https://i.ibb.co/n8nYrnLq/IMG-20260513-WA0014.jpg', titulo: 'Blusa con brillante', precio: 'VENDIDA', talla: 'S', marca: 'Marca' },
+            { img: 'https://i.ibb.co/s9Hxf0wj/IMG-20260513-WA0015.jpg', titulo: 'Traje de baño negro', precio: 'Q25', talla: 'XS/S', marca: 'Marca' },
+            { img: 'https://i.ibb.co/8n5ZzFgy/IMG-20260513-WA0016.jpg', titulo: 'Short de lona', precio: 'Q30', talla: 'S', marca: 'Marca' },
+            { img: 'https://i.ibb.co/cXg2zcd9/IMG-20260513-WA0018.jpg', titulo: 'Hoddie negro corto', precio: 'VENDIDA', talla: 'S/M', marca: 'WILD FABLE' },
+            { img: 'https://i.ibb.co/DqDmSSs/IMG-20260513-WA0019.jpg', titulo: 'Sueter casual', precio: 'VENDIDA', talla: 'S', marca: 'NEW DAY' },
+            { img: 'https://i.ibb.co/Qvgn64G5/IMG-20260513-WA0020.jpg', titulo: 'Estilo old money', precio: 'VENDIDA', talla: 'S', marca: ' Marca' },
+            { img: 'https://i.ibb.co/fY0zjq3f/IMG-20260513-WA0021.jpg', titulo: 'Estilo old money', precio: 'Q35', talla: 'S', marca: 'OLD NAVI' },
+            { img: 'https://i.ibb.co/hxsM3Txd/IMG-20260513-WA0022.jpg', titulo: 'Blusa  basica', precio: 'VENDIDA', talla: 'S/M', marca: 'FOREVER 21' },
+            { img: 'https://i.ibb.co/DPLhVHWh/IMG-20260513-WA0023.jpg', titulo: 'Blusa con escote bardot', precio: 'VENDIDA', talla: 'S', marca: 'Marca' },
+            { img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg', titulo: 'Sueter corto', precio: 'Q35', talla: 'S/M', marca: 'HOLLISTER' },
+            { img: 'https://i.ibb.co/kgzyHBMy/IMG-20260513-WA0025.jpg', titulo: 'Blusa basica', precio: 'VENDIDA', talla: 'S/M', marca: 'Marca' },
+            { img: 'https://i.ibb.co/j9vxMPND/IMG-20260513-WA0026.jpg', titulo: 'Sueter estilo Old money casual', precio: 'VENDIDA', talla: 'S', marca: 'SINCERELY JULES' },
+            { img: 'https://i.ibb.co/GQMfthzg/IMG-20260513-WA0027.jpg', titulo: 'Blusa formal', precio: 'Q25', talla: 'S', marca: ' H&M' },
+            { img: 'https://i.ibb.co/twSTfCt3/IMG-20260513-WA0028.jpg', titulo: 'Blusa corte bardot ', precio: 'VENDIDA', talla: 'S', marca: 'Marca' },
+            { img: 'https://i.ibb.co/yBhHQDry/IMG-20260513-WA0029.jpg', titulo: 'Camisa tipo polo Nueva ', precio: 'Q40', talla: 'M/L', marca: ' CALLAWAY' },
+            { img: 'https://i.ibb.co/xcLDYZ5/IMG-20260513-WA0030.jpg', titulo: 'Sueter para caballero', precio: 'Q35', talla: 'S/M', marca: 'OLD NAVI' },
+            { img: 'https://i.ibb.co/ytntRSB/IMG-20260513-WA0031.jpg', titulo: 'Playera y suéter para caballero', precio: 'Q60', talla: 'S y M', marca: 'Tomy' },
+            { img: 'https://i.ibb.co/Mx3hBHn8/IMG-20260513-WA0032.jpg', titulo: ' Camisa', precio: 'VENDIDA', talla: 'M', marca: 'XIOS' },
+            { img: 'https://i.ibb.co/d0gjxc9X/IMG-20260513-WA0033.jpg', titulo: ' Chumpa para nena', precio: 'Q60', talla: '7/8 Años', marca: 'Marca' },
+            { img: 'https://i.ibb.co/MFPFfxd/IMG-20260513-WA0034.jpg', titulo: ' Chumpa Para Nena', precio: 'Q35', talla: '2T ', marca: 'CAT & JACK' }
+        ];
+
+        let indexActual = 0;
+        const bgMusic = document.getElementById('bg-music');
+        const clickSfx = document.getElementById('click-sound');
+
+        bgMusic.volume = 0.20; 
+        clickSfx.volume = 1.0; 
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                bgMusic.pause();
+                document.getElementById('music-control').innerText = "🎵";
+            }
+        });
+
+        function playClick() { 
+            clickSfx.currentTime = 0; 
+            clickSfx.play().catch(() => {}); 
+        }
+
+        function toggleMusic() {
+            if (bgMusic.paused) { 
+                bgMusic.play(); 
+                document.getElementById('music-control').innerText = "🔊"; 
+            } else { 
+                bgMusic.pause(); 
+                document.getElementById('music-control').innerText = "🎵"; 
+            }
+        }
+
+        const galeria = document.getElementById('galeria');
+        prendas.forEach((p, i) => {
+            const delay = i * 0.1; // Delay ligero para el efecto en cascada
+            galeria.innerHTML += `
+                <div class="product-card relative shadow-sm anim-card" style="animation-delay: ${delay}s;" onclick="abrirModal(${i})">
+                    <div class="tag-nuevo animate-pulse">Nuevo</div>
+                    <img src="${p.img}" class="w-full aspect-[3/4] object-cover">
+                    <div class="p-3 bg-white text-center">
+                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">${p.marca}</p>
+                        <h3 class="text-xs font-semibold text-gray-800 truncate">${p.titulo}</h3>
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="font-bold text-black text-sm">${p.precio}</p>
+                            <span class="talla-badge">Talla ${p.talla}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        function abrirModal(index) {
+            playClick();
+            indexActual = index;
+            actualizarModal();
+            document.getElementById('modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            document.querySelector('.modal-content').style.animation = 'none';
+            document.getElementById('m-img').style.animation = 'none';
+            setTimeout(() => {
+                document.querySelector('.modal-content').style.animation = 'slideUpModal 0.4s ease-out';
+                document.getElementById('m-img').style.animation = 'fadeInImg 0.4s ease-in';
+            }, 10);
+        }
+
+        function actualizarModal() {
+            const p = prendas[indexActual];
+            document.getElementById('m-img').src = p.img;
+            document.getElementById('m-marca').innerText = p.marca;
+            document.getElementById('m-titulo').innerText = p.titulo;
+            document.getElementById('m-talla').innerText = "Talla disponible: " + p.talla;
+            document.getElementById('m-precio').innerText = p.precio;
+        }
+
+        function cambiarPrenda(direccion) {
+            playClick();
+
+            const imgEl = document.getElementById('m-img');
+            imgEl.style.opacity = '0.5';
+
+            setTimeout(() => {
+                indexActual += direccion;
+                if (indexActual < 0) indexActual = prendas.length - 1;
+                if (indexActual >= prendas.length) indexActual = 0;
+                actualizarModal();
+                imgEl.style.opacity = '1';
+                imgEl.style.animation = 'none';
+                setTimeout(() => imgEl.style.animation = 'fadeInImg 0.3s ease-in', 10);
+            }, 150);
+        }
+
+        function cerrar() { 
+            playClick(); 
+            document.getElementById('modal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function comprarPorWA() {
+            const p = prendas[indexActual];
+            const mensaje = "¡Hola Val_Store! 💋 Me interesa esta prenda:\n\n" + 
+                            "📌 Producto: " + p.titulo + "\n" +
+                            "💰 Precio: " + p.precio + "\n" +
+                            "📏 Talla: " + p.talla + "\n" + 
+                            "🖼️ Imagen: " + p.img + "\n\n" + 
+                            "¿Sigue disponible?";
+            
+            window.location.href = "https://wa.me/50240283552?text=" + encodeURIComponent(mensaje);
+        }
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.getElementById('modal').addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 60) cambiarPrenda(1); 
+            if (touchendX - touchstartX > 60) cambiarPrenda(-1); 
+        });
+    </script>
+</body>
+</html>
