@@ -10,7 +10,7 @@
         :root { --brand-red: #E01E37; --bg-dark: #080808; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #ffffff; overflow-x: hidden; margin: 0; }
 
-        /* --- NUEVA ANIMACIÓN PREMIUM --- */
+        /* --- ANIMACIÓN INICIAL ELEGANTE --- */
         #intro-bg {
             position: fixed; inset: 0; background-color: #000; z-index: 150;
             transition: opacity 0.8s ease-in-out;
@@ -30,7 +30,7 @@
             70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
             100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); filter: blur(10px); }
         }
-        
+
         /* --- PANTALLA HERO --- */
         #hero {
             position: fixed; inset: 0; z-index: 100;
@@ -38,20 +38,58 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             opacity: 0; transition: opacity 1s ease;
         }
-        .glow-hero { position: absolute; width: 60vw; height: 60vw; max-width: 500px; max-height: 500px; background: var(--brand-red); filter: blur(150px); opacity: 0.15; }
+        /* Brillo de fondo */
+        .glow-hero {
+            position: absolute; width: 60vw; height: 60vw; max-width: 500px; max-height: 500px;
+            background: var(--brand-red); filter: blur(150px); opacity: 0.15;
+        }
 
-        /* --- UI COMPONENTS (RESTO DEL CÓDIGO SIN CAMBIOS) --- */
-        .glass-nav { background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); opacity: 0; transition: opacity 0.8s ease; }
-        .category-btn { position: relative; font-weight: 600; font-size: 0.8rem; color: #888; transition: all 0.3s; padding: 0.5rem 1rem; }
+        /* --- UI COMPONENTS --- */
+        .glass-nav {
+            background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            opacity: 0; transition: opacity 0.6s ease;
+        }
+
+        .category-btn {
+            position: relative; font-weight: 600; font-size: 0.8rem; color: #888;
+            transition: all 0.3s; padding: 0.5rem 1rem;
+        }
         .category-btn.active { color: #fff; }
-        .category-btn.active::after { content: ''; position: absolute; bottom: 0; left: 25%; width: 50%; height: 2px; background: var(--brand-red); }
-        .product-card { background: #111; border-radius: 16px; overflow: hidden; transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+        .category-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 25%; width: 50%;
+            height: 2px; background: var(--brand-red);
+        }
+
+        .product-card {
+            background: #111; border-radius: 16px; overflow: hidden;
+            transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
+        }
         .product-card:hover { transform: translateY(-5px); border-color: rgba(224, 30, 55, 0.4); }
-        .discount-tag { background: linear-gradient(45deg, #ff0000, #E01E37); padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; }
+
+        .discount-tag {
+            background: linear-gradient(45deg, #ff0000, #E01E37);
+            padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;
+        }
+
+        /* Animación de entrada de productos */
         .reveal-up { animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; }
-        @keyframes revealUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes imagePop { 0% { opacity: 0; transform: scale(0.9) translateY(15px); filter: blur(5px); } 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
-        .anim-pop { animation: imagePop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes revealUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Nueva animación visual para prendas en el modal */
+        @keyframes imagePop {
+            0% { opacity: 0; transform: scale(0.9) translateY(15px); filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        .anim-pop {
+            animation: imagePop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Ocultar barra de scroll en el modal en móviles */
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
@@ -74,21 +112,76 @@
 
     <nav id="main-nav" class="glass-nav fixed top-0 w-full z-[90] px-4 md:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="font-black text-lg md:text-xl">VAL_STORE💋</div>
+            <div class="w-[80px] md:w-[120px] font-black text-lg md:text-xl">VAL_STORE💋</div>
+            
             <div class="hidden md:flex gap-4">
                 <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
                 <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
                 <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
                 <button onclick="filterItems('Oferta')" class="category-btn text-red-500">20% Descuento</button>
             </div>
+            
             <div class="flex items-center gap-3 md:gap-5">
-                <a href="#" target="_blank" class="text-white hover:text-[#E01E37] transition-colors hover:scale-110">Instagram</a>
+                <a href="#" target="_blank" class="text-white hover:text-[#E01E37] transition-colors hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="#" target="_blank" class="text-white hover:text-[#E01E37] transition-colors hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="https://wa.me/50240283552?text=¡Hola%20Val_Store!%20💋%20Vengo%20de%20ver%20su%20catálogo%20y%20me%20gustaría%20más%20información." target="_blank" class="text-white hover:text-[#E01E37] transition-colors hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </a>
+                
                 <div id="music-control" onclick="toggleMusic()" class="cursor-pointer text-xl opacity-50 hover:opacity-100 transition border-l border-white/20 pl-3 md:pl-5">🎵</div>
             </div>
         </div>
     </nav>
 
-    <!-- (El resto del código HTML y los datos de 'prendas' se mantienen intactos aquí abajo) -->
+    <div class="md:hidden flex justify-center gap-1 mt-[80px] px-2" id="mobile-nav" style="opacity: 0; transition: opacity 1s ease;">
+        <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
+        <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
+        <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
+        <button onclick="filterItems('Oferta')" class="category-btn text-red-500">20% OFF</button>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 md:py-12 md:mt-[80px]">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="galeria"></div>
+    </main>
+
+    <div id="modal" class="fixed inset-0 z-[250] hidden bg-black/95 backdrop-blur-xl flex-col md:flex-row items-center justify-center p-0 md:p-6 h-[100dvh]">
+        
+        <button onclick="cerrar()" class="absolute top-4 left-4 bg-white/10 border border-white/20 text-white px-5 py-2 rounded-full flex items-center gap-2 text-sm font-bold z-[260] hover:bg-white hover:text-black transition-colors backdrop-blur-md shadow-lg">
+            ✕ Salir
+        </button>
+
+        <div class="w-full h-full md:max-w-5xl md:h-[80vh] md:bg-[#111] md:rounded-[2rem] md:border md:border-white/10 flex flex-col md:flex-row overflow-hidden relative">
+            
+            <div class="relative w-full h-[55%] md:h-full md:w-1/2 bg-black flex items-center justify-center">
+                <img id="m-img" src="" class="w-full h-full object-contain">
+                <button onclick="cambiarPrenda(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md text-xl border border-white/10 hover:bg-white/20 z-10">‹</button>
+                <button onclick="cambiarPrenda(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md text-xl border border-white/10 hover:bg-white/20 z-10">›</button>
+            </div>
+            
+            <div class="w-full h-[45%] md:h-full md:w-1/2 flex flex-col p-6 bg-gradient-to-b from-[#111] to-[#080808]">
+                <div class="overflow-y-auto no-scrollbar pb-4">
+                    <span id="m-marca" class="text-[10px] font-black tracking-[0.4em] text-[#E01E37] uppercase"></span>
+                    <h2 id="m-titulo" class="text-2xl md:text-4xl font-black leading-tight mt-1 mb-2 text-white"></h2>
+                    <div class="flex items-center gap-4 mt-2">
+                        <p id="m-precio" class="text-3xl font-light"></p>
+                        <div id="tag-oferta" class="discount-tag hidden">-20% OFF</div>
+                    </div>
+                    <p id="m-talla" class="text-[#888] font-mono tracking-widest uppercase text-sm mt-4"></p>
+                </div>
+                
+                <div class="mt-auto w-full pb-2">
+                    <button onclick="comprarPorWA()" class="w-full bg-[#E01E37] text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-red-700 transition-all shadow-[0_0_20px_rgba(224,30,55,0.3)] active:scale-[0.98]">
+                        Preguntar por WhatsApp 💋
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const prendas = [
             { img: 'https://i.ibb.co/ZpSKqZgK/IMG-20260513-WA0009.jpg', titulo: 'Pantalón de cuero café', precio: 'Q50', talla: 'M', marca: 'OLD NAVY', cat: 'Mujer' },
@@ -117,7 +210,18 @@
             { img: 'https://i.ibb.co/MFPFfxd/IMG-20260513-WA0034.jpg', titulo: 'Chumpa Para Nena', precio: 'Q35', talla: '2T', marca: 'CAT & JACK', cat: 'Niñ@s' }
         ];
 
-        // LOGICA DE ANIMACIÓN LIMPIA
+        let indexActual = 0;
+        let currentFilter = 'Mujer';
+        const bgMusic = document.getElementById('bg-music');
+
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden && !bgMusic.paused) {
+                bgMusic.pause();
+                document.getElementById('music-control').style.opacity = '0.5';
+            }
+        });
+
+        // ANIMACIÓN INICIAL EN CADENA LIMPIA Y CONTROLADA
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('intro-bg').style.opacity = '0';
@@ -127,16 +231,62 @@
                     document.getElementById('intro-bg').style.display = 'none';
                     document.getElementById('animated-logo').style.display = 'none';
                 }, 800);
-            }, 2200); // Se queda 2.2 segundos para que se aprecie bien
+            }, 2200); // Se mantiene 2.2 segundos para ser legible y elegante
         });
 
         function startExperience() {
             document.getElementById('hero').style.transform = 'translateY(-100%)';
+            document.getElementById('hero').style.pointerEvents = 'none'; 
+            
             document.getElementById('main-nav').style.opacity = '1';
+            document.getElementById('mobile-nav').style.opacity = '1';
+            
+            bgMusic.play().catch(e => console.log("Permiso de audio bloqueado", e));
             renderGaleria();
         }
-        
-        // ... (El resto de tus funciones: filterItems, renderGaleria, etc., se quedan iguales)
-    </script>
-</body>
-</html>
+
+        function filterItems(category) {
+            currentFilter = category;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.innerText.includes(category)) btn.classList.add('active');
+            });
+            renderGaleria();
+        }
+
+        function renderGaleria() {
+            const container = document.getElementById('galeria');
+            container.innerHTML = '';
+            
+            let filtered = prendas.filter(p => {
+                if(currentFilter === 'Oferta') return p.oferta === true;
+                return p.cat === currentFilter;
+            });
+
+            filtered.forEach((p, i) => {
+                const globalIndex = prendas.indexOf(p);
+                container.innerHTML += `
+                    <div class="product-card group reveal-up" style="animation-delay: ${i*0.08}s" onclick="abrirModal(${globalIndex})">
+                        <div class="relative overflow-hidden aspect-[3/4]">
+                            <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            ${p.oferta ? '<div class="absolute top-2 left-2 discount-tag">OFERTA</div>' : ''}
+                        </div>
+                        <div class="p-4 md:p-6">
+                            <p class="text-[8px] font-black tracking-[0.2em] md:tracking-[0.3em] text-[#E01E37] uppercase">${p.marca}</p>
+                            <h3 class="text-xs md:text-sm font-bold truncate mt-1">${p.titulo}</h3>
+                            <div class="flex justify-between items-center mt-2 md:mt-4">
+                                <span class="font-black text-sm md:text-lg">${p.precio}</span>
+                                <span class="text-[9px] md:text-[10px] text-gray-500 font-mono">${p.talla}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function abrirModal(index) {
+            indexActual = index;
+            actualizarModal();
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
