@@ -8,34 +8,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --brand-red: #E01E37; --bg-dark: #080808; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #ffffff; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #ffffff; overflow-x: hidden; margin: 0; }
 
-        /* Pantalla de Entrada (Landing) */
+        /* --- ANIMACIÓN INICIAL --- */
+        #intro-bg {
+            position: fixed; inset: 0; background-color: #000; z-index: 150;
+            transition: opacity 1s ease;
+        }
+
+        #animated-logo {
+            position: fixed; z-index: 200; white-space: nowrap;
+            transition: all 1.2s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+        
+        /* Estado inicial (Centro) */
+        .pos-center {
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 3rem; 
+        }
+        @media (min-width: 768px) { .pos-center { font-size: 5rem; } }
+
+        /* Estado final (Esquina superior izquierda) */
+        .pos-nav {
+            top: 18px; left: 24px; transform: translate(0, 0);
+            font-size: 1.25rem; /* Tamaño de logo de la navbar */
+        }
+
+        /* --- PANTALLA HERO --- */
         #hero {
             position: fixed; inset: 0; z-index: 100;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            background: radial-gradient(circle at center, #1a1a1a 0%, #080808 100%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1);
+            opacity: 0; transition: all 1s ease;
         }
-        .hero-logo { font-size: 4rem; font-weight: 900; letter-spacing: -2px; animation: pulseLogo 2s infinite; }
-        
-        /* Animaciones */
-        @keyframes pulseLogo {
-            0%, 100% { transform: scale(1); opacity: 1; text-shadow: 0 0 20px rgba(224, 30, 55, 0); }
-            50% { transform: scale(1.05); opacity: 0.8; text-shadow: 0 0 30px rgba(224, 30, 55, 0.5); }
+        /* Brillo de fondo */
+        .glow-hero {
+            position: absolute; width: 60vw; height: 60vw; max-width: 500px; max-height: 500px;
+            background: var(--brand-red); filter: blur(150px); opacity: 0.15;
         }
 
-        .reveal-up { animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-        @keyframes revealUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Interfaz de Usuario */
+        /* --- UI COMPONENTS --- */
         .glass-nav {
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(15px);
+            background: rgba(8, 8, 8, 0.85); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            opacity: 0; transition: opacity 1s ease;
         }
 
         .category-btn {
@@ -49,99 +65,107 @@
         }
 
         .product-card {
-            background: #111; border-radius: 20px; overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.03);
+            background: #111; border-radius: 16px; overflow: hidden;
+            transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
         }
-        .product-card:hover { transform: scale(1.02); border-color: rgba(224, 30, 55, 0.3); }
-
-        /* Modal Adidas Style */
-        .modal-blur { backdrop-filter: blur(20px); background: rgba(0,0,0,0.9); }
-        .glow-bg {
-            position: absolute; width: 300px; height: 300px;
-            background: var(--brand-red); filter: blur(120px);
-            opacity: 0.15; z-index: -1; top: 20%;
-        }
-
-        #music-control {
-            position: fixed; bottom: 25px; right: 25px; z-index: 90;
-            background: rgba(255,255,255,0.1); width: 50px; height: 50px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
-        }
+        .product-card:hover { transform: translateY(-5px); border-color: rgba(224, 30, 55, 0.4); }
 
         .discount-tag {
             background: linear-gradient(45deg, #ff0000, #E01E37);
             padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800;
         }
+
+        /* Animación de entrada de productos */
+        .reveal-up { animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; opacity: 0; }
+        @keyframes revealUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Ocultar barra de scroll en el modal en móviles */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop><source src="musica.mp3" type="audio/mpeg"></audio>
-    <audio id="click-sound"><source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <div id="animated-logo" class="font-black text-white tracking-tighter pos-center">
+        VAL_STORE<span class="text-[#E01E37]">💋</span>
+    </div>
+
+    <div id="intro-bg"></div>
 
     <section id="hero">
-        <div class="hero-logo text-white mb-8">VAL_STORE<span class="text-[#E01E37]">💋</span></div>
-        <button onclick="startExperience()" class="bg-white text-black px-12 py-4 rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E01E37] hover:text-white transition-all duration-500 transform hover:scale-110 shadow-2xl">
+        <div class="glow-hero"></div>
+        <button onclick="startExperience()" class="relative z-10 bg-white text-black px-12 py-4 rounded-full font-black text-[13px] uppercase tracking-widest hover:bg-[#E01E37] hover:text-white transition-all duration-500 transform hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.15)] mt-12">
             Explorar Catálogo
         </button>
-        <p class="text-gray-500 mt-6 text-[10px] uppercase tracking-[0.3em]">Premium Fashion Guatemala</p>
     </section>
 
-    <nav class="glass-nav fixed top-0 w-full z-50 px-6 py-4">
+    <nav id="main-nav" class="glass-nav fixed top-0 w-full z-[90] px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <span class="font-black text-xl tracking-tighter">VAL_STORE💋</span>
+            <div class="w-[120px] opacity-0 pointer-events-none">VAL_STORE💋</div>
+            
             <div class="hidden md:flex gap-4">
                 <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
                 <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
                 <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
                 <button onclick="filterItems('Oferta')" class="category-btn text-red-500">20% Descuento</button>
             </div>
-            <a href="https://wa.me/50240283552" class="text-[10px] font-bold border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition">WHATSAPP</a>
+            
+            <div id="music-control" onclick="toggleMusic()" class="cursor-pointer text-xl opacity-50 hover:opacity-100 transition">🎵</div>
         </div>
     </nav>
 
-    <div class="md:hidden flex justify-center gap-2 mt-20 px-4">
+    <div class="md:hidden flex justify-center gap-1 mt-[80px] px-2" id="mobile-nav" style="opacity: 0; transition: opacity 1s ease;">
         <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
         <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
         <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
         <button onclick="filterItems('Oferta')" class="category-btn text-red-500">20% OFF</button>
     </div>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="galeria"></div>
+    <main class="max-w-7xl mx-auto px-4 py-6 md:py-12 md:mt-[80px]">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="galeria"></div>
     </main>
 
-    <div id="modal" class="fixed inset-0 z-[100] hidden modal-blur flex items-center justify-center p-4">
-        <div class="glow-bg"></div>
-        <button onclick="cerrar()" class="absolute top-8 right-8 text-white/50 hover:text-white text-2xl font-light">✕</button>
+    <div id="modal" class="fixed inset-0 z-[250] hidden bg-black/95 backdrop-blur-xl flex-col md:flex-row items-center justify-center p-0 md:p-6 h-[100dvh]">
         
-        <div class="max-w-5xl w-full grid md:grid-cols-2 gap-8 items-center">
-            <div class="relative group">
-                <img id="m-img" src="" class="w-full h-[50vh] md:h-[70vh] object-contain rounded-3xl transition-transform duration-700">
-                <button onclick="cambiarPrenda(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/5 hover:bg-white/20 p-4 rounded-full">‹</button>
-                <button onclick="cambiarPrenda(1)" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/5 hover:bg-white/20 p-4 rounded-full">›</button>
+        <button onclick="cerrar()" class="absolute top-4 left-4 bg-white/10 border border-white/20 text-white px-5 py-2 rounded-full flex items-center gap-2 text-sm font-bold z-[260] hover:bg-white hover:text-black transition-colors backdrop-blur-md shadow-lg">
+            ✕ Salir
+        </button>
+
+        <div class="w-full h-full md:max-w-5xl md:h-[80vh] md:bg-[#111] md:rounded-[2rem] md:border md:border-white/10 flex flex-col md:flex-row overflow-hidden relative">
+            
+            <div class="relative w-full h-[55%] md:h-full md:w-1/2 bg-black flex items-center justify-center">
+                <img id="m-img" src="" class="w-full h-full object-contain">
+                <button onclick="cambiarPrenda(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md text-xl border border-white/10 hover:bg-white/20 z-10">‹</button>
+                <button onclick="cambiarPrenda(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md text-xl border border-white/10 hover:bg-white/20 z-10">›</button>
             </div>
-            <div class="flex flex-col gap-4 text-left">
-                <span id="m-marca" class="text-xs font-bold tracking-[0.4em] text-[#E01E37] uppercase"></span>
-                <h2 id="m-titulo" class="text-4xl md:text-6xl font-black leading-none"></h2>
-                <div class="flex items-center gap-4">
-                    <p id="m-precio" class="text-3xl font-light"></p>
-                    <div id="tag-oferta" class="discount-tag hidden">-20% OFF</div>
+            
+            <div class="w-full h-[45%] md:h-full md:w-1/2 flex flex-col p-6 bg-gradient-to-b from-[#111] to-[#080808]">
+                <div class="overflow-y-auto no-scrollbar pb-4">
+                    <span id="m-marca" class="text-[10px] font-black tracking-[0.4em] text-[#E01E37] uppercase"></span>
+                    <h2 id="m-titulo" class="text-2xl md:text-4xl font-black leading-tight mt-1 mb-2 text-white"></h2>
+                    <div class="flex items-center gap-4 mt-2">
+                        <p id="m-precio" class="text-3xl font-light"></p>
+                        <div id="tag-oferta" class="discount-tag hidden">-20% OFF</div>
+                    </div>
+                    <p id="m-talla" class="text-[#888] font-mono tracking-widest uppercase text-sm mt-4"></p>
                 </div>
-                <p id="m-talla" class="text-gray-400 font-mono tracking-widest uppercase"></p>
-                <div class="h-[1px] bg-white/10 my-4"></div>
-                <button onclick="comprarPorWA()" class="bg-white text-black py-6 rounded-full font-black uppercase tracking-widest hover:bg-[#E01E37] hover:text-white transition-all">
-                    Añadir al Carrito (WhatsApp) 💋
-                </button>
+                
+                <div class="mt-auto w-full pb-2">
+                    <button onclick="comprarPorWA()" class="w-full bg-[#E01E37] text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-red-700 transition-all shadow-[0_0_20px_rgba(224,30,55,0.3)] active:scale-[0.98]">
+                        Preguntar por WhatsApp 💋
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="music-control" onclick="toggleMusic()">🎵</div>
-
     <script>
+        // Tus datos intactos
         const prendas = [
             { img: 'https://i.ibb.co/ZpSKqZgK/IMG-20260513-WA0009.jpg', titulo: 'Pantalón de cuero café', precio: 'Q50', talla: 'M', marca: 'OLD NAVY', cat: 'Mujer' },
             { img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg', talla: 'S', precio: 'Q50', titulo: 'Pantalón de cuero negro', marca: 'OLD NAVY', cat: 'Mujer' },
@@ -172,11 +196,33 @@
         let indexActual = 0;
         let currentFilter = 'Mujer';
         const bgMusic = document.getElementById('bg-music');
-        const clickSfx = document.getElementById('click-sound');
 
+        // LÓGICA DE ANIMACIÓN INICIAL
+        window.addEventListener('load', () => {
+            // Espera 1 segundo para que lean el logo en el centro
+            setTimeout(() => {
+                const logo = document.getElementById('animated-logo');
+                logo.classList.remove('pos-center');
+                logo.classList.add('pos-nav'); // Mueve el logo a la esquina
+                
+                document.getElementById('intro-bg').style.opacity = '0';
+                document.getElementById('hero').style.opacity = '1';
+                
+                setTimeout(() => {
+                    document.getElementById('intro-bg').style.display = 'none';
+                }, 1000);
+            }, 1200);
+        });
+
+        // INICIAR EXPERIENCIA (Al tocar el botón de explorar)
         function startExperience() {
             document.getElementById('hero').style.transform = 'translateY(-100%)';
-            bgMusic.play();
+            document.getElementById('hero').style.pointerEvents = 'none'; // Evitar que estorbe los clics
+            
+            document.getElementById('main-nav').style.opacity = '1';
+            document.getElementById('mobile-nav').style.opacity = '1';
+            
+            bgMusic.play().catch(e => console.log("Permiso de audio bloqueado", e));
             renderGaleria();
         }
 
@@ -201,17 +247,17 @@
             filtered.forEach((p, i) => {
                 const globalIndex = prendas.indexOf(p);
                 container.innerHTML += `
-                    <div class="product-card group reveal-up" style="animation-delay: ${i*0.1}s" onclick="abrirModal(${globalIndex})">
+                    <div class="product-card group reveal-up" style="animation-delay: ${i*0.08}s" onclick="abrirModal(${globalIndex})">
                         <div class="relative overflow-hidden aspect-[3/4]">
                             <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            ${p.oferta ? '<div class="absolute top-4 left-4 discount-tag">OFERTA</div>' : ''}
+                            ${p.oferta ? '<div class="absolute top-2 left-2 discount-tag">OFERTA</div>' : ''}
                         </div>
-                        <div class="p-6">
-                            <p class="text-[8px] font-black tracking-[0.3em] text-[#E01E37] uppercase">${p.marca}</p>
-                            <h3 class="text-sm font-bold truncate mt-1">${p.titulo}</h3>
-                            <div class="flex justify-between items-center mt-4">
-                                <span class="font-black text-lg">${p.precio}</span>
-                                <span class="text-[10px] text-gray-500 font-mono">${p.talla}</span>
+                        <div class="p-4 md:p-6">
+                            <p class="text-[8px] font-black tracking-[0.2em] md:tracking-[0.3em] text-[#E01E37] uppercase">${p.marca}</p>
+                            <h3 class="text-xs md:text-sm font-bold truncate mt-1">${p.titulo}</h3>
+                            <div class="flex justify-between items-center mt-2 md:mt-4">
+                                <span class="font-black text-sm md:text-lg">${p.precio}</span>
+                                <span class="text-[9px] md:text-[10px] text-gray-500 font-mono">${p.talla}</span>
                             </div>
                         </div>
                     </div>
@@ -225,7 +271,6 @@
             document.getElementById('modal').classList.remove('hidden');
             document.getElementById('modal').classList.add('flex');
             document.body.style.overflow = 'hidden';
-            clickSfx.play();
         }
 
         function actualizarModal() {
@@ -234,7 +279,7 @@
             document.getElementById('m-titulo').innerText = p.titulo;
             document.getElementById('m-marca').innerText = p.marca;
             document.getElementById('m-precio').innerText = p.precio;
-            document.getElementById('m-talla').innerText = "Size: " + p.talla;
+            document.getElementById('m-talla').innerText = "Talla: " + p.talla;
             
             if(p.oferta) document.getElementById('tag-oferta').classList.remove('hidden');
             else document.getElementById('tag-oferta').classList.add('hidden');
@@ -246,27 +291,35 @@
         }
 
         function cerrar() {
+            document.getElementById('modal').classList.remove('flex');
             document.getElementById('modal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
 
         function comprarPorWA() {
             const p = prendas[indexActual];
-            const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:\n\n📌 Producto: ${p.titulo}\n💰 Precio: ${p.precio}\n📏 Talla: ${p.talla}\n🖼️ Imagen: ${p.img}\n\n¿Sigue disponible?`;
+            const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:\n\n📌 Producto: ${p.titulo}\n💰 Precio: ${p.precio}\n📏 Talla: ${p.talla}\n\n¿Sigue disponible?`;
             window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
         }
 
         function toggleMusic() {
-            if (bgMusic.paused) { bgMusic.play(); } 
-            else { bgMusic.pause(); }
+            const icono = document.getElementById('music-control');
+            if (bgMusic.paused) { 
+                bgMusic.play(); 
+                icono.style.opacity = '1';
+            } else { 
+                bgMusic.pause(); 
+                icono.style.opacity = '0.5';
+            }
         }
 
-        // Swipe para móvil
+        // Deslizar con el dedo en el modal (Swipe)
         let touchstartX = 0;
         document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
         document.getElementById('modal').addEventListener('touchend', e => {
-            if (touchstartX - e.changedTouches[0].screenX > 60) cambiarPrenda(1);
-            if (e.changedTouches[0].screenX - touchstartX > 60) cambiarPrenda(-1);
+            let touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 50) cambiarPrenda(1); // Desliza izquierda
+            if (touchendX - touchstartX > 50) cambiarPrenda(-1); // Desliza derecha
         });
     </script>
 </body>
