@@ -323,10 +323,22 @@
         }
 
         function comprarPorWA() {
-            const p = prendas[indexActual];
-            const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:\n\n📌 Producto: ${p.titulo}\n💰 Precio: ${p.precio}\n📏 Talla: ${p.talla}\n\n¿Sigue disponible?`;
-            window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
-        }
+    const p = prendas[indexActual];
+
+    const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:
+
+📌 Producto: ${p.titulo}
+🏷️ Marca: ${p.marca}
+💰 Precio: ${p.precio}
+📏 Talla: ${p.talla}
+
+📸 Imagen del producto:
+${p.img}
+
+¿Sigue disponible?`;
+
+    window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
+}
 
         function toggleMusic() {
             const icono = document.getElementById('music-control');
