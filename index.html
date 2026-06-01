@@ -318,4 +318,46 @@
 
         function cerrar() {
             document.getElementById('modal').classList.remove('flex');
-            documen 
+            document.getElementById('modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function comprarPorWA() {
+    const p = prendas[indexActual];
+
+    const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:
+
+📌 Producto: ${p.titulo}
+🏷️ Marca: ${p.marca}
+💰 Precio: ${p.precio}
+📏 Talla: ${p.talla}
+
+📸 Imagen del producto:
+${p.img}
+
+¿Sigue disponible?`;
+
+    window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
+}
+
+        function toggleMusic() {
+            const icono = document.getElementById('music-control');
+            if (bgMusic.paused) { 
+                bgMusic.play(); 
+                icono.style.opacity = '1';
+            } else { 
+                bgMusic.pause(); 
+                icono.style.opacity = '0.5';
+            }
+        }
+
+        let touchstartX = 0;
+        document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.getElementById('modal').addEventListener('touchend', e => {
+            let touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 50) cambiarPrenda(1); 
+            if (touchendX - touchstartX > 50) cambiarPrenda(-1); 
+        });
+    </script>
+</body>
+</html>
