@@ -16,10 +16,7 @@
             transition: opacity 0.6s ease-in-out;
         }
 
-        #animated-logo {
-            position: fixed; z-index: 200; white-space: nowrap;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 3rem; opacity: 0;
+        #animated-logo { position: fixed; z-index: 200; white-space: nowrap; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; opacity: 0;
             animation: elegantFade 2.2s ease-in-out forwards;
         }
         @media (min-width: 768px) { #animated-logo { font-size: 5rem; } }
@@ -91,7 +88,36 @@
 
         /* Ocultar barra de scroll en el modal en móviles */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
+    
+.hero-particles{
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at 20% 30%, rgba(224,30,55,.25), transparent 25%),
+radial-gradient(circle at 80% 70%, rgba(224,30,55,.15), transparent 25%);
+animation: floatBg 8s ease-in-out infinite alternate;
+}
+
+@keyframes floatBg{
+from{transform:scale(1);}
+to{transform:scale(1.15);}
+}
+
+@keyframes luxuryIntro{
+0%{opacity:0;letter-spacing:20px;transform:translate(-50%,-50%) scale(.8);}
+50%{opacity:1;letter-spacing:4px;}
+100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}
+}
+
+#animated-logo{
+animation: luxuryIntro 3s ease forwards !important;
+}
+
+#hero{
+transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1s ease;
+}
+
+</style>
 </head>
 <body>
 
@@ -103,12 +129,41 @@
 
     <div id="intro-bg"></div>
 
-    <section id="hero">
-        <div class="glow-hero"></div>
-        <button onclick="startExperience()" class="relative z-10 bg-white text-black px-12 py-4 rounded-full font-black text-[13px] uppercase tracking-widest hover:bg-[#E01E37] hover:text-white transition-all duration-500 transform hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.15)] mt-12">
-            Explorar Catálogo
+    
+<section id="hero">
+    <div class="hero-particles"></div>
+    <div class="glow-hero"></div>
+
+    <div class="relative z-10 text-center px-6">
+        <span class="text-[#E01E37] tracking-[0.4em] text-xs uppercase font-bold">
+            Moda Exclusiva
+        </span>
+
+        <h1 class="text-3xl sm:text-4xl md:text-8xl font-black mt-4 leading-none px-4">
+            VAL_STORE💋
+        </h1>
+
+        <p class="text-gray-400 max-w-xl mx-auto mt-6 text-sm md:text-lg">
+            Descubre prendas seleccionadas con estilo, elegancia y personalidad.
+        </p>
+
+        <div class="flex justify-center gap-8 mt-10">
+            <div>
+                <p class="text-3xl font-black">24+</p>
+                <span class="text-gray-500 text-xs">Prendas</span>
+            </div>
+            <div>
+                <p class="text-3xl font-black">30%</p>
+                <span class="text-gray-500 text-xs">Descuentos</span>
+            </div>
+        </div>
+
+        <button onclick="startExperience()" class="mt-10 bg-[#E01E37] text-white px-12 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-all duration-500">
+            Entrar al catálogo
         </button>
-    </section>
+    </div>
+</section>
+
 
     <nav id="main-nav" class="glass-nav fixed top-0 w-full z-[90] px-4 md:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -118,7 +173,7 @@
                 <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
                 <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
                 <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
-                <button onclick="filterItems('Oferta')" class="category-btn text-red-500">25% Descuento</button>
+                <button onclick="filterItems('Oferta')" class="category-btn text-red-500">30% Descuento</button>
             </div>
             
             <div class="flex items-center gap-3 md:gap-5">
@@ -141,7 +196,7 @@
         <button onclick="filterItems('Mujer')" class="category-btn active">Mujer</button>
         <button onclick="filterItems('Hombre')" class="category-btn">Hombre</button>
         <button onclick="filterItems('Niñ@s')" class="category-btn">Niñ@s</button>
-        <button onclick="filterItems('Oferta')" class="category-btn text-red-500">25% OFF</button>
+        <button onclick="filterItems('Oferta')" class="category-btn text-red-500">30% OFF</button>
     </div>
 
     <main class="max-w-7xl mx-auto px-4 py-6 md:py-12 md:mt-[80px]">
@@ -168,7 +223,7 @@
                     <h2 id="m-titulo" class="text-2xl md:text-4xl font-black leading-tight mt-1 mb-2 text-white"></h2>
                     <div class="flex items-center gap-4 mt-2">
                         <p id="m-precio" class="text-3xl font-light"></p>
-                        <div id="tag-oferta" class="discount-tag hidden">-25% OFF</div>
+                        <div id="tag-oferta" class="discount-tag hidden">-30% OFF</div>
                     </div>
                     <p id="m-talla" class="text-[#888] font-mono tracking-widest uppercase text-sm mt-4"></p>
                 </div>
@@ -185,51 +240,29 @@
     <script>
         const prendas = [
             { img: 'https://i.ibb.co/ZpSKqZgK/IMG-20260513-WA0009.jpg', titulo: 'Pantalón de cuero café', precio: 'Q50', talla: 'M', marca: 'OLD NAVY', cat: 'Mujer' },
-             { img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg', talla: 'S', precio: 'Q50', titulo: 'Pantalón de cuero negro', marca: 'OLD NAVY', cat: 'Mujer' },           
-            { img:
-'https://i.ibb.co/s9Hxf0wj/IMG-20260513-WA0015.jpg', titulo: 'Traje de baño negro', precio: 'Q25', talla: 'XS/S', marca: 'Marca', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/zhWLBtY8/IMG-20260513-WA0010.jpg', talla: 'S', precio: 'Q50', titulo: 'Pantalón de cuero negro', marca: 'OLD NAVY', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/nsZf8BQw/IMG-20260513-WA0011.jpg', titulo: 'Pantalón de lona', precio: 'Q60', talla: 'S', marca: 'LEVI STRAUSS', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/35s9BhSJ/IMG-20260513-WA0013.jpg', titulo: 'Blusa corte bardot', precio: 'Q25', talla: 'S/M', marca: 'EXCLUSIVO', cat: 'Mujer', oferta: true },
+            { img: 'https://i.ibb.co/n8nYrnLq/IMG-20260513-WA0014.jpg', titulo: 'Blusa con brillante', precio: 'VENDIDA', talla: 'S', marca: 'Marca', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/s9Hxf0wj/IMG-20260513-WA0015.jpg', titulo: 'Traje de baño negro', precio: 'Q25', talla: 'XS/S', marca: 'Marca', cat: 'Mujer' },
             { img: 'https://i.ibb.co/8n5ZzFgy/IMG-20260513-WA0016.jpg', titulo: 'Short de lona', precio: 'Q30', talla: 'S', marca: 'Marca', cat: 'Mujer' },
-                { img: 'https://i.ibb.co/fY0zjq3f/IMG-20260513-WA0021.jpg', titulo: 'Estilo old money', precio: 'Q35', talla: 'S', marca: 'OLD NAVY', cat: 'Mujer' },
-                { img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg', titulo: 'Suéter corto', precio: 'Q35', talla: 'S/M', marca: 'HOLLISTER', cat: 'Mujer', oferta: true },
-            { img: 'https://i.ibb.co/DfVgNqBp/IMG-20260531-WA0002.jpg', titulo: 'Blusa corte bardot', precio: 'Q25', talla: 'S', marca: 'SHEIN', cat: 'Mujer' },
-{ img:
-'https://i.ibb.co/JWDs6cMb/IMG-20260531-WA0003.jpg', titulo: 'Crop top', precio: 'Q25', talla: 'S', marca: 'SHEIN', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/N2ZKWymG/IMG-20260531-WA0004.jpg', titulo: 'Blusa', precio: 'Q30', talla: 'S', marca: 'H&M', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/Fkd1S7CQ/IMG-20260531-WA0005.jpg', titulo: 'Body', precio: 'Q40', talla: 'S/M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/W4PJLLVG/IMG-20260531-WA0006.jpg', titulo: 'Body blanco', precio: 'Q30', talla: 'S', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/LDtD7qBL/IMG-20260531-WA0007.jpg', titulo: 'Blusa descubierta de hombros', precio: 'Q35', talla: 'M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/8g5tM6S0/IMG-20260531-WA0008.jpg', titulo: 'Blusa con manga transparente', precio: 'Q35', talla: 'L', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/B5dnFCNn/IMG-20260531-WA0009.jpg', titulo: 'Body color cafe', precio: 'Q45', talla: 'S', marca: 'SHEIN', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/hJ0H7NYy/IMG-20260531-WA0010.jpg', titulo: 'T-Shirt unisex', precio: 'Q35', talla: 'XS/S', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/0Rf1M7xq/IMG-20260531-WA0011.jpg', titulo: 'Blusa formal', precio: 'Q30', talla: 'S', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/gZzQxZhM/IMG-20260531-WA0012.jpg', titulo: 'Falda', precio: 'Q30', talla: 'S', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/TxzXVG20/IMG-20260531-WA0013.jpg', titulo: 'Crop top de malla', precio: 'Q30', talla: 'S', marca: 'MARCA', cat: 'Mujer' }, 
-{ img: 'https://i.ibb.co/38RSc9H/IMG-20260531-WA0014.jpg', titulo: 'Chaqueta beige', precio: 'Q50', talla: 'S', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/HTshYCXB/IMG-20260531-WA0015.jpg', titulo: 'Pijama de satin', precio: 'Q30', talla: 'S/M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/yFbC6tJ0/IMG-20260531-WA0016.jpg', titulo: 'Blusa estampado print', precio: 'Q30', talla: 'S/M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/0yTPDwhZ/IMG-20260531-WA0017.jpg', titulo: 'Chaleco', precio: 'Q35', talla: 'M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/yndnc0J0/IMG-20260531-WA0018.jpg', titulo: 'Sueter corto', precio: 'Q45', talla: 'S', marca: 'FOREVER 21', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/TDy7c8Vm/IMG-20260531-WA0019.jpg', titulo: 'Top corto con tirantes envolventes', precio: 'Q50', talla: 'S', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/gL29WL1w/IMG-20260531-WA0021.jpg', titulo: 'Vestido de lana', precio: 'Q45', talla: 'M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/3XCfSvf/IMG-20260531-WA0020.jpg', titulo: 'Blusa formal', precio: 'Q25', talla: 'S', marca: 'H&M', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/nsSHgBZd/IMG-20260531-WA0022.jpg', titulo: 'Vestido largo con doble abertura', precio: 'Q35', talla: 'S/M', marca: 'MARCA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/XxR7R6kJ/IMG-20260531-WA0023.jpg', titulo: 'Vestido casual o salida de baño', precio: 'Q30', talla: 'S', marca: 'ZARA', cat: 'Mujer' },
-{ img: 'https://i.ibb.co/8n1P3kG5/IMG-20260531-WA0024.jpg', titulo: 'Sueter corto', precio: 'Q25', talla: 'S', marca: 'H&M', cat: 'Mujer' },
-            { img: 'https://i.ibb.co/yBhHQDry/IMG-20260513-WA0029.jpg', titulo: 'Camisa tipo polo Nueva', precio: 'Q40', talla: 'M/L', marca: 'CALLAWAY', cat: 'Hombre', oferta: true  },
-            { img: 'https://i.ibb.co/xcLDYZ5/IMG-20260513-WA0030.jpg', titulo: 'Suéter para caballero', precio: 'Q35', talla: 'S/M', marca: 'OLD NAVY', cat: 'Hombre', oferta: true  },
-            { img: 'https://i.ibb.co/d0gjxc9X/IMG-20260513-WA0033.jpg', titulo: 'Chumpa para nena', precio: 'Q60', talla: '7/8 Años', marca: 'Nena', cat: 'Niñ@s' },{ img: 'https://i.ibb.co/0VRR5DHC/IMG-20260531-WA0026.jpg', titulo: 'Conjunto', precio: 'Q50', talla: 'L', marca: 'MARCA', cat: 'hombre' },
-{ img: 'https://i.ibb.co/5gqFh0mj/IMG-20260531-WA0027.jpg', titulo: 'Conjunto', precio: 'Q50', talla: 'M', marca: 'MARCA', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/5xKC2p7V/IMG-20260531-WA0028.jpg', titulo: 'Camisa', precio: 'Q30', talla: 'M', marca: 'MARCA', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/fdZX3VJS/IMG-20260531-WA0029.jpg', titulo: 'Playera', precio: 'Q25', talla: 'M', marca: 'OLD NAVY', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/HfmNTg3X/IMG-20260531-WA0030.jpg', titulo: 'Sudadero', precio: 'Q50', talla: 'S/M', marca: 'TOMY HILFIGER ', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/1G6mZ5g4/IMG-20260531-WA0031.jpg', titulo: 'Playera MY HERO ACADEMIA', precio: 'Q30', talla: 'M', marca: 'FUNIMATION', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/Q3YtnYmG/IMG-20260531-WA0032.jpg', titulo: 'Pleyera', precio: 'Q25', talla: 'M', marca: 'MARCA', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/wZzBFBpP/IMG-20260531-WA0033.jpg', titulo: 'Gorro unisex', precio: 'Q30', talla: 'UNICA', marca: 'ADIDAS', cat: 'Hombre' },
-{ img: 'https://i.ibb.co/3byx4D0/IMG-20260531-WA0034.jpg', titulo: 'Camisa de niño', precio: 'Q25', talla: '5T', marca: 'OLD NAVY', cat: 'Niñ@s' },{ img: 'https://i.ibb.co/Q7Lzqsgt/IMG-20260531-WA0035.jpg', titulo: 'playera de niño', precio: 'Q30', talla: '4T', marca: 'ADIDAS', cat: 'Niñ@s' },
-{ img: 'https://i.ibb.co/9HtPK5NM/IMG-20260531-WA0036.jpg', titulo: 'Short', precio: 'Q30', talla: '8 a 12 Años', marca: 'MARCA', cat: 'Niñ@s'}, { img: 'https://i.ibb.co/pjx8NM4S/IMG-20260531-WA0037.jpg', titulo: 'Pantalon de Niña', precio: 'Q30', talla: '4Y', marca: 'SHEIN', cat: 'Niñ@s' },{ img: 'https://i.ibb.co/v47YKLj8/IMG-20260531-WA0038.jpg', titulo: 'Pans de niño ', precio: 'Q35', talla: '3 a 6 Años', marca: 'NIKE', cat: 'Niñ@s' },{ img: 'https://i.ibb.co/Y7hkVSqt/IMG-20260531-WA0039.jpg', titulo: 'Conjunto para niño', precio: 'Q35', talla: '4T', marca: 'H&M', cat: 'Niñ@s' },{ img: 'https://i.ibb.co/yJYd7sH/IMG-20260531-WA0040.jpg', titulo: 'Playeta de niño Baby Yoda', precio: 'Q20', talla: '3T', marca: 'MARCA', cat: 'Niñ@s' },
-{ img: 'https://i.ibb.co/qM1qTmhB/IMG-20260531-WA0041.jpg', titulo: 'Blusa de Nena', precio: 'Q20', talla: '5 A 6 Años', marca: 'ZARA', cat: 'Niñ@s' },
-
-            { img: 'https://i.ibb.co/MFPFfxd/IMG-20260513-WA0034.jpg', titulo: 'Chumpa Para Nena', precio: 'Q35', talla: '2T', marca: 'CAT & JACK', cat: 'Niñ@s' },
+            { img: 'https://i.ibb.co/cXg2zcd9/IMG-20260513-WA0018.jpg', titulo: 'Hoddie negro corto', precio: 'VENDIDA', talla: 'S/M', marca: 'WILD FABLE', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/DqDmSSs/IMG-20260513-WA0019.jpg', titulo: 'Suéter casual', precio: 'VENDIDA', talla: 'S', marca: 'NEW DAY', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/Qvgn64G5/IMG-20260513-WA0020.jpg', titulo: 'Estilo old money', precio: 'VENDIDA', talla: 'S', marca: 'Marca', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/fY0zjq3f/IMG-20260513-WA0021.jpg', titulo: 'Estilo old money', precio: 'Q35', talla: 'S', marca: 'OLD NAVY', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/hxsM3Txd/IMG-20260513-WA0022.jpg', titulo: 'Blusa básica', precio: 'VENDIDA', talla: 'S/M', marca: 'FOREVER 21', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/DPLhVHWh/IMG-20260513-WA0023.jpg', titulo: 'Blusa con escote bardot', precio: 'VENDIDA', talla: 'S', marca: 'Marca', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/LwDqhTj/IMG-20260513-WA0024.jpg', titulo: 'Suéter corto', precio: 'Q35', talla: 'S/M', marca: 'HOLLISTER', cat: 'Mujer', oferta: true },
+            { img: 'https://i.ibb.co/kgzyHBMy/IMG-20260513-WA0025.jpg', titulo: 'Blusa básica', precio: 'VENDIDA', talla: 'S/M', marca: 'Marca', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/j9vxMPND/IMG-20260513-WA0026.jpg', titulo: 'Suéter estilo Old money casual', precio: 'VENDIDA', talla: 'S', marca: 'SINCERELY JULES', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/GQMfthzg/IMG-20260513-WA0027.jpg', titulo: 'Blusa formal', precio: 'Q25', talla: 'S', marca: 'H&M', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/twSTfCt3/IMG-20260513-WA0028.jpg', titulo: 'Blusa corte bardot', precio: 'VENDIDA', talla: 'S', marca: 'Marca', cat: 'Mujer' },
+            { img: 'https://i.ibb.co/yBhHQDry/IMG-20260513-WA0029.jpg', titulo: 'Camisa tipo polo Nueva', precio: 'Q40', talla: 'M/L', marca: 'CALLAWAY', cat: 'Hombre' },
+            { img: 'https://i.ibb.co/xcLDYZ5/IMG-20260513-WA0030.jpg', titulo: 'Suéter para caballero', precio: 'Q35', talla: 'S/M', marca: 'OLD NAVY', cat: 'Hombre' },
+            { img: 'https://i.ibb.co/ytntRSB/IMG-20260513-WA0031.jpg', titulo: 'Playera y suéter para caballero', precio: 'Q60', talla: 'S y M', marca: 'Tommy', cat: 'Hombre', oferta: true },
+            { img: 'https://i.ibb.co/Mx3hBHn8/IMG-20260513-WA0032.jpg', titulo: 'Camisa', precio: 'VENDIDA', talla: 'M', marca: 'XIOS', cat: 'Hombre' },
+            { img: 'https://i.ibb.co/d0gjxc9X/IMG-20260513-WA0033.jpg', titulo: 'Chumpa para nena', precio: 'Q60', talla: '7/8 Años', marca: 'Nena', cat: 'Niñ@s' },
+            { img: 'https://i.ibb.co/MFPFfxd/IMG-20260513-WA0034.jpg', titulo: 'Chumpa Para Nena', precio: 'Q35', talla: '2T', marca: 'CAT & JACK', cat: 'Niñ@s' }
         ];
 
         let indexActual = 0;
@@ -257,15 +290,20 @@
         });
 
         function startExperience() {
-            document.getElementById('hero').style.transform = 'translateY(-100%)';
-            document.getElementById('hero').style.pointerEvents = 'none'; 
-            
-            document.getElementById('main-nav').style.opacity = '1';
-            document.getElementById('mobile-nav').style.opacity = '1';
-            
-            bgMusic.play().catch(e => console.log("Permiso de audio bloqueado", e));
-            renderGaleria();
-        }
+    const hero = document.getElementById('hero');
+    hero.style.transform='scale(1.2)';
+    hero.style.opacity='0';
+
+    setTimeout(()=>{
+        hero.style.display='none';
+    },1000);
+
+    document.getElementById('main-nav').style.opacity='1';
+    document.getElementById('mobile-nav').style.opacity='1';
+
+    bgMusic.play().catch(e => console.log("Permiso de audio bloqueado", e));
+    renderGaleria();
+}
 
         function filterItems(category) {
             currentFilter = category;
@@ -304,82 +342,4 @@
                     </div>
                 `;
             });
-        }
-
-        function abrirModal(index) {
-            indexActual = index;
-            actualizarModal();
-            document.getElementById('modal').classList.remove('hidden');
-            document.getElementById('modal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function actualizarModal() {
-            const p = prendas[indexActual];
-            const imgEl = document.getElementById('m-img');
-            
-            imgEl.classList.remove('anim-pop');
-            void imgEl.offsetWidth; 
-            
-            imgEl.src = p.img;
-            imgEl.classList.add('anim-pop');
-            
-            document.getElementById('m-titulo').innerText = p.titulo;
-            document.getElementById('m-marca').innerText = p.marca;
-            document.getElementById('m-precio').innerText = p.precio;
-            document.getElementById('m-talla').innerText = "Talla: " + p.talla;
-            
-            if(p.oferta) document.getElementById('tag-oferta').classList.remove('hidden');
-            else document.getElementById('tag-oferta').classList.add('hidden');
-        }
-
-        function cambiarPrenda(dir) {
-            indexActual = (indexActual + dir + prendas.length) % prendas.length;
-            actualizarModal();
-        }
-
-        function cerrar() {
-            document.getElementById('modal').classList.remove('flex');
-            document.getElementById('modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function comprarPorWA() {
-    const p = prendas[indexActual];
-
-    const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:
-
-📌 Producto: ${p.titulo}
-🏷️ Marca: ${p.marca}
-💰 Precio: ${p.precio}
-📏 Talla: ${p.talla}
-
-📸 Imagen del producto:
-${p.img}
-
-¿Sigue disponible?`;
-
-    window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
-}
-
-        function toggleMusic() {
-            const icono = document.getElementById('music-control');
-            if (bgMusic.paused) { 
-                bgMusic.play(); 
-                icono.style.opacity = '1';
-            } else { 
-                bgMusic.pause(); 
-                icono.style.opacity = '0.5';
-            }
-        }
-
-        let touchstartX = 0;
-        document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-        document.getElementById('modal').addEventListener('touchend', e => {
-            let touchendX = e.changedTouches[0].screenX;
-            if (touchstartX - touchendX > 50) cambiarPrenda(1); 
-            if (touchendX - touchstartX > 50) cambiarPrenda(-1); 
-        });
-    </script>
-</body>
-</html>
+      
