@@ -16,7 +16,10 @@
             transition: opacity 0.6s ease-in-out;
         }
 
-        #animated-logo { position: fixed; z-index: 200; white-space: nowrap; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; opacity: 0;
+        #animated-logo {
+            position: fixed; z-index: 200; white-space: nowrap;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 3rem; opacity: 0;
             animation: elegantFade 2.2s ease-in-out forwards;
         }
         @media (min-width: 768px) { #animated-logo { font-size: 5rem; } }
@@ -88,36 +91,7 @@
 
         /* Ocultar barra de scroll en el modal en móviles */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-    
-.hero-particles{
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle at 20% 30%, rgba(224,30,55,.25), transparent 25%),
-radial-gradient(circle at 80% 70%, rgba(224,30,55,.15), transparent 25%);
-animation: floatBg 8s ease-in-out infinite alternate;
-}
-
-@keyframes floatBg{
-from{transform:scale(1);}
-to{transform:scale(1.15);}
-}
-
-@keyframes luxuryIntro{
-0%{opacity:0;letter-spacing:20px;transform:translate(-50%,-50%) scale(.8);}
-50%{opacity:1;letter-spacing:4px;}
-100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}
-}
-
-#animated-logo{
-animation: luxuryIntro 3s ease forwards !important;
-}
-
-#hero{
-transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1s ease;
-}
-
-</style>
+    </style>
 </head>
 <body>
 
@@ -129,41 +103,12 @@ transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1s ease;
 
     <div id="intro-bg"></div>
 
-    
-<section id="hero">
-    <div class="hero-particles"></div>
-    <div class="glow-hero"></div>
-
-    <div class="relative z-10 text-center px-6">
-        <span class="text-[#E01E37] tracking-[0.4em] text-xs uppercase font-bold">
-            Moda Exclusiva
-        </span>
-
-        <h1 class="text-3xl sm:text-4xl md:text-8xl font-black mt-4 leading-none px-4">
-            VAL_STORE💋
-        </h1>
-
-        <p class="text-gray-400 max-w-xl mx-auto mt-6 text-sm md:text-lg">
-            Descubre prendas seleccionadas con estilo, elegancia y personalidad.
-        </p>
-
-        <div class="flex justify-center gap-8 mt-10">
-            <div>
-                <p class="text-3xl font-black">24+</p>
-                <span class="text-gray-500 text-xs">Prendas</span>
-            </div>
-            <div>
-                <p class="text-3xl font-black">30%</p>
-                <span class="text-gray-500 text-xs">Descuentos</span>
-            </div>
-        </div>
-
-        <button onclick="startExperience()" class="mt-10 bg-[#E01E37] text-white px-12 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-all duration-500">
-            Entrar al catálogo
+    <section id="hero">
+        <div class="glow-hero"></div>
+        <button onclick="startExperience()" class="relative z-10 bg-white text-black px-12 py-4 rounded-full font-black text-[13px] uppercase tracking-widest hover:bg-[#E01E37] hover:text-white transition-all duration-500 transform hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.15)] mt-12">
+            Explorar Catálogo
         </button>
-    </div>
-</section>
-
+    </section>
 
     <nav id="main-nav" class="glass-nav fixed top-0 w-full z-[90] px-4 md:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -290,20 +235,15 @@ transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1s ease;
         });
 
         function startExperience() {
-    const hero = document.getElementById('hero');
-    hero.style.transform='scale(1.2)';
-    hero.style.opacity='0';
-
-    setTimeout(()=>{
-        hero.style.display='none';
-    },1000);
-
-    document.getElementById('main-nav').style.opacity='1';
-    document.getElementById('mobile-nav').style.opacity='1';
-
-    bgMusic.play().catch(e => console.log("Permiso de audio bloqueado", e));
-    renderGaleria();
-}
+            document.getElementById('hero').style.transform = 'translateY(-100%)';
+            document.getElementById('hero').style.pointerEvents = 'none'; 
+            
+            document.getElementById('main-nav').style.opacity = '1';
+            document.getElementById('mobile-nav').style.opacity = '1';
+            
+            bgMusic.play().catch(e => console.log("Permiso de audio bloqueado", e));
+            renderGaleria();
+        }
 
         function filterItems(category) {
             currentFilter = category;
@@ -378,46 +318,4 @@ transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity 1s ease;
 
         function cerrar() {
             document.getElementById('modal').classList.remove('flex');
-            document.getElementById('modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        function comprarPorWA() {
-    const p = prendas[indexActual];
-
-    const msg = `¡Hola Val_Store! 💋 Me interesa esta prenda:
-
-📌 Producto: ${p.titulo}
-🏷️ Marca: ${p.marca}
-💰 Precio: ${p.precio}
-📏 Talla: ${p.talla}
-
-📸 Imagen del producto:
-${p.img}
-
-¿Sigue disponible?`;
-
-    window.location.href = `https://wa.me/50240283552?text=${encodeURIComponent(msg)}`;
-}
-
-        function toggleMusic() {
-            const icono = document.getElementById('music-control');
-            if (bgMusic.paused) { 
-                bgMusic.play(); 
-                icono.style.opacity = '1';
-            } else { 
-                bgMusic.pause(); 
-                icono.style.opacity = '0.5';
-            }
-        }
-
-        let touchstartX = 0;
-        document.getElementById('modal').addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-        document.getElementById('modal').addEventListener('touchend', e => {
-            let touchendX = e.changedTouches[0].screenX;
-            if (touchstartX - touchendX > 50) cambiarPrenda(1); 
-            if (touchendX - touchstartX > 50) cambiarPrenda(-1); 
-        });
-    </script>
-</body>
-</html>
+            documen
