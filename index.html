@@ -19,33 +19,123 @@
         .container {
             text-align: center;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- ESTILOS DEL HUEVO ESTILO GAME OF THRONES --- */
+        .egg-wrapper {
+            position: absolute;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .egg-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .egg {
+            width: 130px;
+            height: 170px;
+            background: radial-gradient(circle at 30% 30%, #ff69b4, #8b0051 60%, #1a0010 90%);
+            border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+            box-shadow: 0 0 35px rgba(255, 20, 147, 0.5), inset 0 -15px 25px rgba(0, 0, 0, 0.8), inset 0 10px 15px rgba(255, 182, 193, 0.4);
+            position: relative;
+            overflow: hidden;
+            /* Patrón de escamas texturizadas */
+            background-image: 
+                radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%),
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.15) 10px, rgba(0,0,0,0.15) 20px);
+            animation: pulse-glow 2.5s infinite alternate;
+        }
+
+        /* Líneas de grietas simuladas */
+        .egg::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            width: 30px;
+            height: 50px;
+            border-left: 2px solid rgba(255, 255, 255, 0.6);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+            transform: rotate(-15deg);
+            opacity: 0.7;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.3), inset 0 -15px 25px rgba(0, 0, 0, 0.8); }
+            100% { box-shadow: 0 0 45px rgba(255, 20, 147, 0.8), inset 0 -15px 25px rgba(0, 0, 0, 0.8); }
+        }
+
+        .egg-instruction {
+            color: #ffb6c1;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            text-shadow: 0 0 8px rgba(255, 20, 147, 0.6);
+            letter-spacing: 1px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* --- ANIMACIÓN DE APERTURA DEL HUEVO --- */
+        .egg-wrapper.opening {
+            animation: hatch 0.8s forwards ease-in-out;
+        }
+
+        @keyframes hatch {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.8); }
+            100% { transform: scale(0); opacity: 0; visibility: hidden; }
+        }
+
+        /* --- ESTILOS DE LA CARTA (Oculta al inicio) --- */
+        .message-box {
+            background: rgba(25, 25, 25, 0.95);
+            border: 1px solid #ff1493;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.4);
+            max-width: 350px;
+            width: 85%;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
         }
 
         .heart_love {
             position: relative;
             width: 100%;
-            height: 100%;
-            padding: 10px;
-            overflow: hidden;
+            padding: 5px;
             color: #ff69b4;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-shadow: 0 0 10px #ff1493;
             margin-bottom: 15px;
-        }
-
-        .message-box {
-            background: rgba(25, 25, 25, 0.9);
-            border: 1px solid #ff1493;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
-            max-width: 350px;
-            margin: auto;
+            font-weight: bold;
         }
 
         p {
             color: #f1f1f1;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 20px;
             text-align: left;
@@ -62,7 +152,14 @@
 <body>
 
     <div class="container">
-        <div class="message-box">
+        <!-- HUEVO DE DRAGÓN INTERACTIVO -->
+        <div class="egg-wrapper" id="eggWrapper" onclick="openEgg()">
+            <div class="egg"></div>
+            <div class="egg-instruction">Toca el huevo para abrirlo ✨</div>
+        </div>
+
+        <!-- CARTA DE AMOR -->
+        <div class="message-box" id="messageBox">
             <div class="heart_love">
                 ❤️ TE AMO ❤️
             </div>
@@ -74,6 +171,22 @@
             <span class="signature">Siempre tuyo.</span>
         </div>
     </div>
+
+    <script>
+        function openEgg() {
+            const eggWrapper = document.getElementById('eggWrapper');
+            const messageBox = document.getElementById('messageBox');
+
+            // Agrega la animación de apertura al huevo
+            eggWrapper.classList.add('opening');
+
+            // Después de que termine la animación del huevo, muestra la carta
+            setTimeout(() => {
+                eggWrapper.style.display = 'none';
+                messageBox.classList.add('show');
+            }, 700);
+        }
+    </script>
 
 </body>
 </html>
