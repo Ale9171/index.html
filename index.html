@@ -1,192 +1,296 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Ti ❤️</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background-color: #0d0d0d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .container {
-            text-align: center;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* --- ESTILOS DEL HUEVO ESTILO GAME OF THRONES --- */
-        .egg-wrapper {
-            position: absolute;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.3s ease;
-            z-index: 10;
-        }
-
-        .egg-wrapper:hover {
-            transform: scale(1.05);
-        }
-
-        .egg {
-            width: 130px;
-            height: 170px;
-            background: radial-gradient(circle at 30% 30%, #ff69b4, #8b0051 60%, #1a0010 90%);
-            border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-            box-shadow: 0 0 35px rgba(255, 20, 147, 0.5), inset 0 -15px 25px rgba(0, 0, 0, 0.8), inset 0 10px 15px rgba(255, 182, 193, 0.4);
-            position: relative;
-            overflow: hidden;
-            /* Patrón de escamas texturizadas */
-            background-image: 
-                radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%),
-                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.15) 10px, rgba(0,0,0,0.15) 20px);
-            animation: pulse-glow 2.5s infinite alternate;
-        }
-
-        /* Líneas de grietas simuladas */
-        .egg::after {
-            content: '';
-            position: absolute;
-            top: 40px;
-            left: 50px;
-            width: 30px;
-            height: 50px;
-            border-left: 2px solid rgba(255, 255, 255, 0.6);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
-            transform: rotate(-15deg);
-            opacity: 0.7;
-        }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 20px rgba(255, 20, 147, 0.3), inset 0 -15px 25px rgba(0, 0, 0, 0.8); }
-            100% { box-shadow: 0 0 45px rgba(255, 20, 147, 0.8), inset 0 -15px 25px rgba(0, 0, 0, 0.8); }
-        }
-
-        .egg-instruction {
-            color: #ffb6c1;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            text-shadow: 0 0 8px rgba(255, 20, 147, 0.6);
-            letter-spacing: 1px;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        /* --- ANIMACIÓN DE APERTURA DEL HUEVO --- */
-        .egg-wrapper.opening {
-            animation: hatch 0.8s forwards ease-in-out;
-        }
-
-        @keyframes hatch {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.8); }
-            100% { transform: scale(0); opacity: 0; visibility: hidden; }
-        }
-
-        /* --- ESTILOS DE LA CARTA (Oculta al inicio) --- */
-        .message-box {
-            background: rgba(25, 25, 25, 0.95);
-            border: 1px solid #ff1493;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 25px rgba(255, 20, 147, 0.4);
-            max-width: 350px;
-            width: 85%;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            position: absolute;
-        }
-
-        .message-box.show {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-
-        .heart_love {
-            position: relative;
-            width: 100%;
-            padding: 5px;
-            color: #ff69b4;
-            font-size: 1.3rem;
-            text-shadow: 0 0 10px #ff1493;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        p {
-            color: #f1f1f1;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .signature {
-            color: #ff69b4;
-            font-weight: bold;
-            display: block;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ValStore - Catálogo Exclusivo</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Poppins', sans-serif; }
+/* Intro Animation /
+#intro-screen {
+animation: fadeOut 0.8s ease 2.5s forwards;
+pointer-events: none;
+}
+@keyframes fadeOut {
+to { opacity: 0; visibility: hidden; }
+}
+/ Custom scrollbar for cart drawer */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+</style>
 </head>
-<body>
-
-    <div class="container">
-        <!-- HUEVO DE DRAGÓN INTERACTIVO -->
-        <div class="egg-wrapper" id="eggWrapper" onclick="openEgg()">
-            <div class="egg"></div>
-            <div class="egg-instruction">Toca el huevo para abrirlo ✨</div>
-        </div>
-
-        <!-- CARTA DE AMOR -->
-        <div class="message-box" id="messageBox">
-            <div class="heart_love">
-                ❤️ TE AMO ❤️
-            </div>
-            <p>
-                Mi amor, sé que a veces fallo y que he cometido errores que te han lastimado. Me duele en el alma saber que con mis acciones no he estado a la altura de la gran mujer que eres y de lo que nuestra familia merece. 
-                <br><br>
-                Perdóname por mis defectos y por las veces que te he fallado. Quiero que sepas que eres el amor de mi vida, lo más valioso que tengo, y te amaré siempre, pase lo que pase.
-            </p>
-            <span class="signature">Siempre tuyo.</span>
-        </div>
-    </div>
-
-    <script>
-        function openEgg() {
-            const eggWrapper = document.getElementById('eggWrapper');
-            const messageBox = document.getElementById('messageBox');
-
-            // Agrega la animación de apertura al huevo
-            eggWrapper.classList.add('opening');
-
-            // Después de que termine la animación del huevo, muestra la carta
-            setTimeout(() => {
-                eggWrapper.style.display = 'none';
-                messageBox.classList.add('show');
-            }, 700);
-        }
-    </script>
-
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col">
+​<!-- 1. ANIMACIÓN DE INICIO (SPLASH SCREEN) -->
+<div id="intro-screen" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center text-white">
+<div class="text-center px-4">
+<h1 class="text-4xl md:text-6xl font-bold tracking-widest uppercase mb-2 animate-pulse">ValStore</h1>
+<p class="text-gray-400 text-sm md:text-base tracking-wider">Tu estilo, tu catálogo digital</p>
+</div>
+</div>
+​<!-- 2. NAVBAR -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<span class="text-2xl font-black tracking-tight text-black">VAL<span class="text-rose-600">STORE</span></span>
+</div>
+​<div class="flex items-center space-x-4">
+<!-- Buscador rápido -->
+<div class="relative hidden md:block">
+<input type="text" id="search-input" placeholder="Buscar por nombre o código..." class="pl-10 pr-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-black/20 w-64 transition-all">
+<i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+</div>
+​<!-- Botón Carrito -->
+<button onclick="toggleCart()" class="relative p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center">
+<i class="fa-solid fa-bag-shopping text-lg"></i>
+<span id="cart-counter" class="absolute -top-1 -right-1 bg-rose-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-sm">0</span>
+</button>
+</div>
+</div>
+<!-- Barra de búsqueda móvil -->
+<div class="px-4 pb-3 md:hidden">
+<div class="relative">
+<input type="text" id="search-input-mobile" placeholder="Buscar por nombre o código..." class="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-black/20">
+<i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+</div>
+</div>
+</header>
+​<!-- 3. CONTENIDO PRINCIPAL -->
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+​<!-- Banner de Bienvenida -->
+<div class="bg-black text-white rounded-3xl p-8 md:p-12 mb-10 flex flex-col md:flex-row items-center justify-between shadow-xl">
+<div class="mb-6 md:mb-0 md:max-w-lg">
+<span class="bg-rose-600 text-white text-xs uppercase px-3 py-1 rounded-full font-semibold tracking-wider">Nueva Colección</span>
+<h2 class="text-3xl md:text-5xl font-bold mt-3 mb-4">Moda & Tendencias Exclusivas</h2>
+<p class="text-gray-300 text-sm md:text-base">Explora nuestro catálogo interactivo, selecciona tus prendas favoritas y haz tu pedido directamente por WhatsApp de forma rápida y sencilla.</p>
+</div>
+<div class="w-full md:w-auto flex justify-center">
+<a href="#catalog-section" class="bg-white text-black font-semibold px-8 py-3.5 rounded-full hover:bg-gray-100 transition-all shadow-md text-sm uppercase tracking-wider">Ver Productos</a>
+</div>
+</div>
+​<div id="catalog-section" class="scroll-mt-28">
+<!-- Filtros por Marca -->
+<div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+<h3 class="text-xl font-bold tracking-tight">Catálogo de Productos</h3>
+<div id="brand-filters" class="flex items-center space-x-2 overflow-x-auto pb-2 max-w-full">
+<!-- Generado dinámicamente -->
+</div>
+</div>
+​<!-- Grid de Productos -->
+<div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<!-- Se inyecta por JS -->
+</div>
+​<!-- Estado Vacío (Sin resultados) -->
+<div id="empty-state" class="hidden text-center py-16">
+<i class="fa-solid fa-box-open text-4xl text-gray-300 mb-3"></i>
+<p class="text-gray-500 font-medium">No se encontraron productos con esos criterios.</p>
+</div>
+</div>
+​</main>
+​<!-- 4. CARRITO LATERAL (DRAWER) -->
+<div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50 hidden backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+<!-- Header del Carrito -->
+<div class="p-5 border-b border-gray-100 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<i class="fa-solid fa-bag-shopping text-xl"></i>
+<h3 class="font-bold text-lg">Tu Carrito de Pedido</h3>
+</div>
+<button onclick="toggleCart()" class="p-2 text-gray-400 hover:text-black transition-colors rounded-full">
+<i class="fa-solid fa-xmark text-xl"></i>
+</button>
+</div>
+​<!-- Items del Carrito -->
+<div id="cart-items" class="flex-grow overflow-y-auto p-5 divide-y divide-gray-100">
+<!-- Items dinámicos -->
+</div>
+​<!-- Footer del Carrito -->
+<div class="p-5 border-t border-gray-100 bg-gray-50">
+<div class="flex items-center justify-between mb-4">
+<span class="text-gray-600 font-medium">Total Estimado:</span>
+<span id="cart-total" class="text-xl font-bold text-black">$0.00</span>
+</div>
+<button onclick="checkoutWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3.5 rounded-2xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center space-x-2">
+<i class="fa-brands fa-whatsapp text-xl"></i>
+<span>Enviar Pedido por WhatsApp</span>
+</button>
+</div>
+</div>
+​<!-- Footer General -->
+<footer class="bg-white border-t border-gray-100 py-8 text-center text-sm text-gray-500 mt-auto">
+<p>© 2026 ValStore. Desarrollado con Catálogo Digital Inteligente.</p>
+</footer>
+​<!-- 5. LÓGICA DE JAVASCRIPT -->
+<script>
+// BASE DE DATOS DE PRODUCTOS (Aquí puedes agregar o editar productos fácilmente)
+const products = [
+{
+id: 1,
+code: "VS-001",
+name: "Vestido Midi Satinado Elegante",
+brand: "Zara",
+price: 45.00,
+image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=600&q=80"
+},
+{
+id: 2,
+code: "VS-002",
+name: "Chaqueta Oversize Efecto Piel",
+brand: "Bershka",
+price: 65.00,
+image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80"
+},
+{
+id: 3,
+code: "VS-003",
+name: "Bolso Minimalista de Hombro",
+brand: "Mango",
+price: 35.00,
+image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80"
+},
+{
+id: 4,
+code: "VS-004",
+name: "Top Asimétrico de Punto Fino",
+brand: "Zara",
+price: 25.00,
+image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80"
+},
+{
+id: 5,
+code: "VS-005",
+name: "Jeans Mom Fit Tiro Alto",
+brand: "Levis",
+price: 55.00,
+image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80"
+},
+{
+id: 6,
+code: "VS-006",
+name: "Gafas de Sol Estilo Vintage",
+brand: "Mango",
+price: 20.00,
+image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80"
+}
+];
+​let cart = [];
+let currentBrand = 'Todos';
+let searchQuery = '';
+​// Inicializar la aplicación
+document.addEventListener('DOMContentLoaded', () => {
+renderBrandFilters();
+renderProducts();
+updateCartUI();
+​// Event Listeners para búsqueda
+document.getElementById('search-input').addEventListener('input', (e) => {
+searchQuery = e.target.value.toLowerCase();
+document.getElementById('search-input-mobile').value = e.target.value;
+renderProducts();
+});
+​document.getElementById('search-input-mobile').addEventListener('input', (e) => {
+searchQuery = e.target.value.toLowerCase();
+document.getElementById('search-input').value = e.target.value;
+renderProducts();
+});
+});
+​// Renderizar Filtros de Marca
+function renderBrandFilters() {
+const brandsContainer = document.getElementById('brand-filters');
+const brands = ['Todos', ...new Set(products.map(p => p.brand))];
+​brandsContainer.innerHTML = brands.map(brand => <button onclick="filterByBrand('${brand}')" class="px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${currentBrand === brand ? 'bg-black text-white shadow-md' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}"> ${brand} </button>).join('');
+}
+​function filterByBrand(brand) {
+currentBrand = brand;
+renderBrandFilters();
+renderProducts();
+}
+​// Renderizar Productos
+function renderProducts() {
+const grid = document.getElementById('products-grid');
+const emptyState = document.getElementById('empty-state');
+​const filtered = products.filter(p => {
+const matchesBrand = currentBrand === 'Todos' || p.brand === currentBrand;
+const matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.code.toLowerCase().includes(searchQuery);
+return matchesBrand && matchesSearch;
+});
+​if (filtered.length === 0) {
+grid.innerHTML = '';
+emptyState.classList.remove('hidden');
+return;
+}
+​emptyState.classList.add('hidden');
+grid.innerHTML = filtered.map(product => <div class="bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group"> <div> <div class="relative overflow-hidden rounded-2xl bg-gray-100 mb-4 aspect-square"> <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full z-10"> ${product.code} </span> <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"> </div> <span class="text-xs font-semibold text-rose-600 uppercase tracking-wider">${product.brand}</span> <h4 class="font-medium text-sm text-gray-900 mt-1 mb-2 line-clamp-2">${product.name}</h4> </div> <div class="flex items-center justify-between pt-3 border-t border-gray-50 mt-2"> <span class="text-lg font-bold text-black">$${product.price.toFixed(2)}</span> <button onclick="addToCart(${product.id})" class="bg-black text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-gray-800 transition-colors flex items-center space-x-1.5 shadow-sm"> <i class="fa-solid fa-plus text-[10px]"></i> <span>Agregar</span> </button> </div> </div>).join('');
+}
+​// Funcionalidad del Carrito
+function toggleCart() {
+const drawer = document.getElementById('cart-drawer');
+const overlay = document.getElementById('cart-overlay');
+const isOpen = !drawer.classList.contains('translate-x-full');
+​if (isOpen) {
+drawer.classList.add('translate-x-full');
+overlay.classList.add('hidden');
+} else {
+drawer.classList.remove('translate-x-full');
+overlay.classList.remove('hidden');
+}
+}
+​function addToCart(productId) {
+const product = products.find(p => p.id === productId);
+const existing = cart.find(item => item.id === productId);
+​if (existing) {
+existing.quantity += 1;
+} else {
+cart.push({ ...product, quantity: 1 });
+}
+​updateCartUI();
+toggleCart(); // Abre automáticamente el carrito para dar feedback
+}
+​function changeQuantity(productId, delta) {
+const item = cart.find(i => i.id === productId);
+if (!item) return;
+​item.quantity += delta;
+if (item.quantity <= 0) {
+cart = cart.filter(i => i.id !== productId);
+}
+updateCartUI();
+}
+​function updateCartUI() {
+const counter = document.getElementById('cart-counter');
+const itemsContainer = document.getElementById('cart-items');
+const totalElement = document.getElementById('cart-total');
+​const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+​counter.textContent = totalCount;
+totalElement.textContent = $${totalPrice.toFixed(2)};
+​if (cart.length === 0) {
+itemsContainer.innerHTML = <div class="h-full flex flex-col items-center justify-center text-center text-gray-400 py-12"> <i class="fa-solid fa-bag-shopping text-3xl mb-2"></i> <p class="text-sm">Tu carrito está vacío</p> </div>;
+return;
+}
+​itemsContainer.innerHTML = cart.map(item => py-4 flex items-center justify-between gap-3"> <div class="flex items-center space-x-3"> <img src="${item.image}" class="w-14 h-14 object-cover rounded-xl bg-gray-100 shrink-0"> <div> <span class="text-[10px] font-bold text-gray-400 uppercase">${item.code}</span> <h5 class="text-xs font-semibold text-gray-800 line-clamp-1">${item.name}</h5> <span class="text-xs font-bold text-black">$${item.price.toFixed(2)}</span> </div> </div> <div class="flex items-center space-x-2 bg-gray-50 p-1.5 rounded-xl border border-gray-100"> <button onclick="changeQuantity(${item.id}, -1)" class="w-6 h-6 bg-white rounded-lg shadow-sm flex items-center justify-center text-xs font-bold hover:bg-gray-100">-</button> <span class="text-xs font-bold px-1">${item.quantity}</span> <button onclick="changeQuantity(${item.id}, 1)" class="w-6 h-6 bg-white rounded-lg shadow-sm flex items-center justify-center text-xs font-bold hover:bg-gray-100">+</button> </div> </div>).join('').replace(/py-4 flex/g, '<div class="py-4 flex'); // Fix quick tag structure
+}
+​// Checkout y Envío por WhatsApp
+function checkoutWhatsApp() {
+if (cart.length === 0) {
+alert('Agrega al menos un producto a tu carrito antes de enviar el pedido.');
+return;
+}
+​// REEMPLAZA ESTE NÚMERO CON TU NÚMERO DE WHATSAPP (incluye código de país, ej: 549...)
+const phoneNumber = "5215500000000";
+​let message = "Hola! 🛍️ Me gustaría realizar el siguiente pedido desde el catálogo:\n\n";
+​cart.forEach(item => {
+message += ▪️ [${item.code}] ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n;
+});
+​const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+message += \n*Total a pagar: $${totalPrice.toFixed(2)}*\n\n¿Quedo a la espera de confirmación y datos de pago!;
+​const encodedMessage = encodeURIComponent(message);
+window.open(https://wa.me/${phoneNumber}?text=${encodedMessage}, '_blank');
+}
+</script>
 </body>
 </html>
